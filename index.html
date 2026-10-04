@@ -10,7 +10,16 @@
 <title>TANK FOR JEREMIAH SMITH · SHADYNASTY</title>
 <meta name="description" content="SHADYNASTY race to the bottom: rookie picks for non-playoff teams go by LOWEST max PF. Live from Sleeper.">
 <meta property="og:title" content="TANK FOR JEREMIAH SMITH · SHADYNASTY">
-<meta property="og:description" content="Live tank standings: the lowest max PF gets the #1 rookie pick.">
+<meta property="og:description" content="Live SHADYNASTY tank race: lowest max PF gets the 1.01. Odds, pick hoarders, bench blunders and waiver regret. HA! Look at Joe's team.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SHADYNASTY">
+<meta property="og:url" content="https://howibrettyourmother.github.io/tank-for-jeremiah-smith/">
+<meta property="og:image" content="https://howibrettyourmother.github.io/tank-for-jeremiah-smith/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Cheerleaders laughing and pointing: TANK FOR JEREMIAH SMITH, the SHADYNASTY race for the 1.01">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TANK FOR JEREMIAH SMITH · SHADYNASTY">
+<meta name="twitter:image" content="https://howibrettyourmother.github.io/tank-for-jeremiah-smith/og.jpg">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23c0141b'/><text x='32' y='44' font-size='34' text-anchor='middle' font-family='Arial Black' fill='%23ffd400'>T</text></svg>">
 <style>
 :root{--red:#e3262e;--gold:#ffc72c;--pink:#ff4fa8;--ink:#f4f6fa;--mute:#8d97aa;--line:rgba(255,255,255,.08);--disp:"Oswald","Avenir Next Condensed","Arial Narrow",Impact,sans-serif}
@@ -28,7 +37,7 @@ body{margin:0;color:var(--ink);font:14px/1.4 -apple-system,BlinkMacSystemFont,"S
 .backbtn:active{transform:translateY(2px);box-shadow:0 1px 0 #8a6200}
 body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
   background:repeating-linear-gradient(90deg,transparent 0 3px,rgba(255,255,255,.012) 3px 4px),radial-gradient(4px 4px at 12% 4%,#fff,transparent),radial-gradient(4px 4px at 18% 3%,#fff,transparent),radial-gradient(4px 4px at 82% 3%,#fff,transparent),radial-gradient(4px 4px at 88% 4%,#fff,transparent);opacity:.9}
-.wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:14px 12px 40px}
+.wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:14px 12px calc(84px + env(safe-area-inset-bottom))}
 /* broadcast header bug */
 .bug{text-align:center;margin:6px 0 2px}
 .live{display:inline-flex;align-items:center;gap:6px;font:700 11px/1 var(--disp);letter-spacing:.18em;color:#fff;background:linear-gradient(180deg,#ff3b3b,#b5121b);padding:5px 10px;border-radius:3px;box-shadow:0 2px 10px rgba(227,38,46,.5)}
@@ -50,11 +59,11 @@ h3{margin:16px 0 6px;font:700 15px/1.1 var(--disp);letter-spacing:.08em;color:va
 .stage{position:relative;margin:12px 0 18px}
 .photo{position:relative;z-index:3;pointer-events:none;margin:0 -12px;line-height:0}
 .photo img{width:100%;height:auto;display:block}
-.cap{position:absolute;left:10px;top:10px;line-height:1}
+.cap{position:relative;z-index:4;line-height:1;margin:0 0 4px}
 .cap span{display:inline-block;font:700 clamp(17px,5.4vw,30px)/1 var(--disp);letter-spacing:.03em;text-transform:uppercase;color:#fff;padding:7px 12px 8px;border-radius:4px;transform:skew(-8deg);box-shadow:0 6px 18px rgba(0,0,0,.55)}
 .cap.red span{background:linear-gradient(180deg,#ff3b3b,#a90f17)}
 .cap.gold span{background:linear-gradient(180deg,#ffe07a,#e3a400);color:#1a1200}
-.swoon .cap{top:auto;bottom:-2%;left:0;right:0;text-align:center}.swoon .cap span{font-size:clamp(15px,4.6vw,28px)}
+.swoon .cap{text-align:center;margin:-2px 0 0}.swoon .cap span{font-size:clamp(15px,4.6vw,28px)}
 .arrow{position:absolute;right:5%;bottom:-12%;width:clamp(50px,15vw,76px);color:var(--gold);filter:drop-shadow(0 3px 6px rgba(0,0,0,.7));animation:nudge 1.1s ease-in-out infinite}
 @keyframes nudge{50%{transform:translate(4px,5px)}}
 .lcard{margin:-7% 0 0 9%;z-index:2;border:1px solid rgba(227,38,46,.65);box-shadow:0 0 0 1px rgba(0,0,0,.6),0 0 30px rgba(227,38,46,.35),0 14px 34px rgba(0,0,0,.7)}
@@ -70,18 +79,17 @@ h3{margin:16px 0 6px;font:700 15px/1.1 var(--disp);letter-spacing:.08em;color:va
 .ledl{font:500 12px/1.2 var(--disp);letter-spacing:.12em;color:#cbd2de}
 .quote{margin-top:8px;color:#ffd0cc;font-style:italic;font-size:13px}
 .hearts{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.hearts i{position:absolute;bottom:30%;font-style:normal;color:var(--pink);font-size:clamp(20px,6vw,34px);text-shadow:0 0 12px rgba(255,79,168,.9),0 2px 4px rgba(0,0,0,.6);opacity:0;animation:rise 4.2s ease-in infinite}
-.hearts i:nth-child(1){left:12%;animation-delay:0s}.hearts i:nth-child(2){left:27%;animation-delay:.7s;font-size:clamp(12px,3.4vw,20px)}.hearts i:nth-child(3){left:41%;animation-delay:1.5s}
-.hearts i:nth-child(4){left:55%;animation-delay:2.2s;font-size:clamp(12px,3.4vw,20px)}.hearts i:nth-child(5){left:68%;animation-delay:.4s}.hearts i:nth-child(6){left:82%;animation-delay:2.9s}.hearts i:nth-child(7){left:92%;animation-delay:1.1s;font-size:clamp(12px,3.4vw,20px)}
+.hearts i{position:absolute;bottom:18%;margin-left:-.5em;font-style:normal;color:var(--pink);font-size:clamp(20px,6vw,34px);text-shadow:0 0 12px rgba(255,79,168,.9),0 2px 4px rgba(0,0,0,.6);opacity:0;animation:rise 4.2s ease-in infinite}
+.hearts i:nth-child(1){left:2%;animation-delay:0s}.hearts i:nth-child(2){left:26%;animation-delay:.7s;font-size:clamp(12px,3.4vw,20px)}.hearts i:nth-child(3){left:52%;animation-delay:1.5s}
+.hearts i:nth-child(4){left:70%;animation-delay:2.2s;font-size:clamp(12px,3.4vw,20px)}.hearts i:nth-child(5){left:93%;animation-delay:.4s}.hearts i:nth-child(6){left:26%;animation-delay:2.9s}.hearts i:nth-child(7){left:52%;animation-delay:1.1s;font-size:clamp(12px,3.4vw,20px)}
 @keyframes rise{0%{transform:translateY(0) scale(.6);opacity:0}12%{opacity:1}75%{opacity:.9}100%{transform:translateY(-34vw) scale(1.2);opacity:0}}
 @media (prefers-reduced-motion:reduce){.hearts i,.arrow,.live i{animation:none}.hearts i{opacity:.85}}
 @media (min-width:760px){
   .stage{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:center;gap:0}
   .photo{margin:0}
   .lcard{margin:0 0 0 -3%;z-index:4}
-  .arrow{right:1%;bottom:auto;top:36%;transform:rotate(-30deg);animation:nudge2 1.1s ease-in-out infinite}@keyframes nudge2{50%{transform:rotate(-30deg) translateX(6px)}}
+  .arrow{right:0;bottom:auto;top:50%;transform:rotate(-30deg);animation:nudge2 1.1s ease-in-out infinite}@keyframes nudge2{50%{transform:rotate(-30deg) translateX(6px)}}
   .swoon{grid-template-columns:minmax(0,1fr) minmax(0,1.5fr)}.swoon .photo{order:2}.swoon .lcard{order:1;margin:0 -3% 0 0;z-index:4}
-  .swoon .cap{bottom:2%}
 }
 /* tables */
 table{width:100%;border-collapse:collapse;font-size:clamp(11px,2.9vw,14px)}
@@ -115,16 +123,26 @@ ol.wall{margin:4px 0 0;padding-left:22px;font-size:13px;line-height:1.45;color:#
 .err{color:#ffaaa3;text-align:center}
 @media (max-width:400px){.panel{padding:10px 7px}th{white-space:normal}td .pill.red{white-space:normal;display:inline-block;max-width:58px;text-align:center;line-height:1.1}td,th{padding-left:2px;padding-right:2px}td .av{width:22px;height:22px;margin-right:5px}td .ow{word-break:break-all}td .pill{font-size:8.5px;padding:2px 5px}.lcard{margin-left:8%}}
 @media (max-width:560px){.hide-s{display:none}}
+.status{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin:0 0 6px}
+.status .when{flex-basis:100%;text-align:center;color:#aeb6c4;font:500 12px/1.2 var(--disp);letter-spacing:.1em;text-transform:uppercase}
+.sbtn{min-height:44px;min-width:44px;padding:0 14px;border-radius:8px;border:1px solid rgba(255,255,255,.18);background:linear-gradient(180deg,#2a3346,#151b27);color:#fff;font:700 13px/1 var(--disp);letter-spacing:.08em;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sbtn:active{transform:translateY(1px)}.sbtn.go{background:linear-gradient(180deg,#ff3b3b,#a90f17);border-color:rgba(255,255,255,.25)}
+.sbtn[disabled]{opacity:.6}.spin{display:inline-block}.busy .spin{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:60;background:#111827;color:#fff;border:1px solid rgba(255,199,44,.5);border-radius:8px;padding:10px 14px;font:700 13px/1.2 var(--disp);letter-spacing:.06em;box-shadow:0 8px 24px rgba(0,0,0,.6);opacity:0;transition:opacity .25s;pointer-events:none}.toast.on{opacity:1}
+.mv{display:block;font:700 10px/1 var(--disp);letter-spacing:.04em;margin-top:2px}.mv.up{color:#ff5a4f}.mv.dn{color:#7dff6a}.mv.eq{color:var(--mute)}
+.gapm{display:none;font-size:9.5px;color:var(--mute);margin-top:2px}.gapm.red{color:#ff5a4f;font:700 9.5px/1.1 var(--disp);letter-spacing:.06em}
+@media (max-width:430px){.gapc{display:none}.gapm{display:block}td .pill.red{max-width:none}}
 </style>
 </head>
 <body>
 <nav class="backbar"><a id="backBtn" class="backbtn" href="https://howibrettyourmother.github.io/mo-morehouse-mo-problems/">&#9664; BACK TO THE GAME</a></nav>
 <div class="wrap">
   <header class="bug"><div class="live"><i></i>LIVE · SLEEPER</div><h1>TANK FOR<span>JEREMIAH SMITH</span></h1></header>
-  <div class="sub">SHADYNASTY · non-playoff rookie picks go by the <b>LOWEST MAX PF</b>. Live from Sleeper. Race to the bottom, boys.</div>
+  <div class="sub" id="subline">SHADYNASTY · non-playoff rookie picks go by the <b>LOWEST MAX PF</b>. Live from Sleeper. Race to the bottom, boys.</div>
+  <div class="status"><span class="when" id="when">Loading live data…</span><button class="sbtn" id="refBtn" type="button" aria-label="Refresh live data"><span class="spin">⟳</span> REFRESH</button><button class="sbtn go" id="shareBtn" type="button" aria-label="Share the tank page">📤 SHARE</button></div>
   <div id="hero"></div>
   <div class="panel">
-    <table id="tbl"><thead><tr><th>PICK</th><th>TEAM</th><th>REC</th><th class="hide-s">PF</th><th>MAX PF</th><th>GAP TO #1</th></tr></thead><tbody><tr><td colspan="6" class="err">Loading the race to the bottom…</td></tr></tbody></table>
+    <table id="tbl"><thead><tr><th>PICK</th><th>TEAM</th><th>REC</th><th class="hide-s">PF</th><th>MAX PF</th><th class="gapc">GAP TO #1</th></tr></thead><tbody><tr><td colspan="6" class="err">Loading the race to the bottom…</td></tr></tbody></table>
   </div>
   <div class="panel" id="odds"><h2>🏁 TANK RACE ODDS FOR 1.01</h2><div class="hint">Simulating…</div></div>
   <div id="weasels"></div>
@@ -140,7 +158,7 @@ const API='https://api.sleeper.app/v1/';
 // (keeps the same web view / standalone session), otherwise a plain same-tab link to the game.
 (function(){const GAME='https://howibrettyourmother.github.io/mo-morehouse-mo-problems/',q=new URLSearchParams(location.search),btn=document.getElementById('backBtn');
   let back=q.get('back')||'';if(!/^(https:\/\/howibrettyourmother\.github\.io\/|http:\/\/(127\.0\.0\.1|localhost)(:\d+)?\/)/.test(back))back=GAME;
-  const fromGame=q.get('from')==='game';btn.href=back;if(!fromGame)btn.innerHTML='&#127918; PLAY MOREHOUSE MORE PROBLEMS';
+  const fromGame=q.get('from')==='game';btn.href=back;if(!fromGame)btn.innerHTML='&#127918; PLAY THE GAME';
   btn.addEventListener('click',e=>{const ref=document.referrer||'';if(fromGame&&history.length>1&&ref&&ref.split('?')[0]===back.split('?')[0]){e.preventDefault();history.back();setTimeout(()=>{location.href=back},900)}});
 })();
 const LEAGUE=(new URLSearchParams(location.search).get('league')||'1312055708249767936').replace(/[^0-9]/g,'');
@@ -156,7 +174,7 @@ const TALK1=['Can’t even tank right… wait, yes he can.','Max PF lower than h
 const TALK=['Tanking with purpose.','Trying to lose, keeps scoring. Rookie mistake.','One more dud week and you’re in it.','Bench full of breakout guys. Shame.','Stop setting good lineups.','Your max PF is too good. Bench those studs.'];
 // ---- session cache: finished weeks (and the future schedule) don't change, so each tab fetches them once ----
 const SS=(()=>{try{sessionStorage.setItem('_t','1');sessionStorage.removeItem('_t');return sessionStorage}catch(e){return null}})();
-async function jc(u){const k='tank:'+u;if(SS){const v=SS.getItem(k);if(v)try{return JSON.parse(v)}catch(e){}}
+async function jc(u,tag){const k='tank:'+u+(tag!=null?'@'+tag:'');if(SS){const v=SS.getItem(k);if(v)try{return JSON.parse(v)}catch(e){}}
   const d=await j(u);if(SS)try{SS.setItem(k,JSON.stringify(d))}catch(e){}return d}
 const pctf=x=>x>=0.995?'>99%':x>0&&x<0.005?'<1%':Math.round(x*100)+'%';
 const nameOf=(R,rid)=>{const r=R[rid];return r?r.team:'Team '+rid};
@@ -168,7 +186,7 @@ async function tankOdds(lg,rows,pt){
   const last=+lg.settings.last_scored_leg||0,regEnd=(+lg.settings.playoff_week_start||15)-1;
   const weeks=[];for(let w=1;w<=regEnd;w++)weeks.push(w);
   // past weeks are immutable -> session cache; future weeks are just the schedule (matchup_id pairs) -> also cached
-  const M=await Promise.all(weeks.map(w=>(w<=last?jc:jc)('league/'+LEAGUE+'/matchups/'+w).catch(()=>[])));
+  const M=await Promise.all(weeks.map(w=>jc('league/'+LEAGUE+'/matchups/'+w,w<=last?null:'s'+last).catch(()=>[])));
   const R=Object.fromEntries(rows.map(r=>[r.rid,r]));
   // per-team weekly mean = season max PF / weeks played; spread = stdev of weekly scores (scaled to max-PF size)
   const P={};rows.forEach(r=>{const pts=[];for(let w=1;w<=last;w++){const m=(M[w-1]||[]).find(x=>x.roster_id===r.rid);if(m&&m.points!=null)pts.push(+m.points)}
@@ -192,6 +210,7 @@ async function tankOdds(lg,rows,pt){
   el.innerHTML=`<h2>🏁 TANK RACE ODDS FOR 1.01</h2><div class="hint">${left?`${N.toLocaleString()} simulated finishes of the last ${left} regular-season week${left>1?'s':''}`:'Regular season is over: final order'} · each team’s weekly max PF drawn from its own average and swing · real remaining schedule.</div>
   <table class="mini"><thead><tr><th>TEAM</th><th>1.01</th><th>TOP 3</th><th>MISS PO</th></tr></thead><tbody>${list.map(r=>{const p=c101[r.rid]/N;return `<tr class="${r.weasel?'wz':''}"><td class="tm"><span class="nm">${esc(r.team)}${r.joe?' <span class="pill red">JOE</span>':''}${r.weasel?' <span class="pill pink">BEST TEAM IN THE LEAGUE</span>':''}</span><span class="bar"><i style="width:${Math.max(p>0?2:0,Math.round(p*100))}%"></i></span><span class="ow">${fmt(P[r.rid].mu)}/wk max PF ± ${fmt(P[r.rid].sd)}</span></td><td><b>${pctf(p)}</b></td><td>${pctf(cTop3[r.rid]/N)}</td><td>${pctf(cMiss[r.rid]/N)}</td></tr>`}).join('')}</tbody></table>`;
   el.dataset.ms=ms;
+  const jr=rows.find(r=>r.joe);TK.joeOdds=jr?pctf(c101[jr.rid]/N):null;TK.joeTeam=jr?jr.team:null;
 }
 
 // ---- Draft Pick Hoarders: next 3 rookie drafts ----
@@ -239,6 +258,7 @@ async function shame(lg,rows){
     const bench=(m.players||[]).filter(p=>!(m.starters||[]).includes(p));let call=null;
     (m.starters||[]).forEach((s,i)=>{const e=ELIG[slots[i]]||[slots[i]],sp=s&&s!=='0'?(+pp[s]||0):0;for(const b of bench){const P=PL[b];if(P&&P.p.some(x=>e.includes(x))){const d=(+pp[b]||0)-sp;if(!call||d>call.d)call={d,b,s,bp:+pp[b]||0,sp}}}});
     return{rid:m.roster_id,opt,act,miss:Math.max(0,opt-act),call}}).sort((a,b)=>b.miss-a.miss);
+  try{const wk={};bb.forEach(x=>{const m=MW.find(y=>y.roster_id===x.rid);wk[x.rid]={o:x.opt,a:x.act,m:m?m.matchup_id:null}});localStorage.setItem('tank:mv:'+LEAGUE+':'+last,JSON.stringify(wk));applyMovers(lg,rows,wk)}catch(e){}
   const worst=MW.length?[...bb].filter(x=>x.call).sort((a,b)=>b.call.d-a.call.d)[0]:null,top=bb[0];
   const pn=id=>id&&id!=='0'?esc((PL[id]||{}).n||'Player '+id):'an EMPTY SLOT';
   el.innerHTML=`<h2>🤦 LEAGUE SHAME</h2>
@@ -255,6 +275,21 @@ function lazyShame(lg,rows){
   if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();run()}},{rootMargin:'300px'});io.observe(el)}else run();
 }
 
+
+// ---- weekly movers: where each team sat in the tank order before the last scored week ----
+const TK={};
+function applyMovers(lg,rows,wk){
+  const pt=+lg.settings.playoff_teams||6,last=+lg.settings.last_scored_leg||0;if(!wk||last<2)return;
+  const P=rows.map(r=>{const x=wk[r.rid]||{o:0,a:0};const opp=Object.entries(wk).find(([k,v])=>+k!==r.rid&&v.m!=null&&v.m===x.m);const won=opp?(x.a>opp[1].a?1:x.a===opp[1].a?0.5:0):0;
+    return{rid:r.rid,w:r.w+r.t/2-won,g:Math.max(1,r.w+r.l+r.t-1),pf:r.pf-x.a,max:r.max-x.o}});
+  const seeded=[...P].sort((a,b)=>b.w/b.g-a.w/a.g||b.pf-a.pf),po=new Set(seeded.slice(0,pt).map(x=>x.rid));
+  const prev={};P.filter(x=>!po.has(x.rid)).sort((a,b)=>a.max-b.max||a.pf-b.pf).forEach((x,i)=>prev[x.rid]=i+1);
+  document.querySelectorAll('.mv[data-rid]').forEach(el=>{const rid=+el.dataset.rid,r=rows.find(x=>x.rid===rid);if(!r||r.po){el.textContent='';return}
+    const was=prev[rid];if(!was){el.className='mv up';el.textContent='NEW';el.title='Fell out of the playoff spots this week';return}
+    const d=was-r.pick;el.className='mv '+(d>0?'up':d<0?'dn':'eq');el.textContent=d>0?'▲'+d:d<0?'▼'+(-d):'–';
+    el.title=d>0?`Up ${d} toward the 1.01 since week ${last-1}`:d<0?`Down ${-d} since week ${last-1}`:`Same spot as week ${last-1}`});
+}
+function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('on'),2200)}
 async function main(){
   const [lg,rosters,users,traded]=await Promise.all([j('league/'+LEAGUE),j('league/'+LEAGUE+'/rosters'),j('league/'+LEAGUE+'/users'),j('league/'+LEAGUE+'/traded_picks').catch(()=>[])]);
   // next season's rookie picks owned: everyone starts with draft_rounds of their own, then apply trades
@@ -273,15 +308,14 @@ async function main(){
   const tb=document.querySelector('#tbl tbody');
   tb.innerHTML=[...out,...ins].map((r,i)=>{const gap=r.po?'—':(r.pick===1?'<span class="pill red">ON THE CLOCK</span>':'+'+fmt(r.max-low));
     const talk=r.po?'':(r.pick===1?TALK1[(r.rid)%TALK1.length]:TALK[(r.rid+r.pick)%TALK.length]);
-    return `<tr class="${r.po?'po':''} ${r.pick===1?'p1':''} ${r.weasel?'wz':''}"><td class="pk">${r.po?'PO':'#'+r.pick}</td>
+    return `<tr class="${r.po?'po':''} ${r.pick===1?'p1':''} ${r.weasel?'wz':''}"><td class="pk">${r.po?'PO':'#'+r.pick}<span class="mv" data-rid="${r.rid}"></span></td>
       <td class="tm">${r.av?`<img class="av" src="${esc(r.av)}" alt="" loading="lazy" referrerpolicy="no-referrer">`:''}<span class="nm">${esc(r.team)}${r.po?'<span class="pill">PLAYOFF SEED '+r.seed+'</span>':''}${r.weasel?'<span class="pill pink">BEST TEAM IN THE LEAGUE</span>':''}</span><span class="ow">@${esc(r.owner)}</span>${r.joe?`<span class="joe">🚽 JOE’S TANK WATCH: ${picks[r.rid]} ${NEXT} picks stockpiled. The tank is the plan.</span>`:''}${talk?`<span class="talk">${esc(talk)}</span>`:''}<span class="pk27">${NEXT} PICKS: ${picks[r.rid]} (${firsts[r.rid]} 1st${firsts[r.rid]===1?'':'s'})</span></td>
-      <td>${r.w}-${r.l}${r.t?'-'+r.t:''}</td><td class="hide-s">${fmt(r.pf)}</td><td>${fmt(r.max)}</td><td>${gap}</td></tr>`}).join('');
+      <td>${r.w}-${r.l}${r.t?'-'+r.t:''}</td><td class="hide-s">${fmt(r.pf)}</td><td>${fmt(r.max)}${r.po?'':(r.pick===1?'<span class="gapm red">ON THE CLOCK</span>':'<span class="gapm">+'+fmt(r.max-low)+'</span>')}</td><td class="gapc">${gap}</td></tr>`}).join('');
   // hero: the tank commander, roasted by the cheer squad
   const L=out[0];
   const IMG=(n,alt)=>`<img src="img/${n}-600.webp" srcset="img/${n}-600.webp 600w, img/${n}-1024.webp 1024w" sizes="(min-width:760px) 600px, 100vw" width="1024" height="${n==='cheer-laugh'?464:480}" alt="${alt}" decoding="async">`;
   if(L)document.getElementById('hero').innerHTML=`<section class="stage laugh">
-    <figure class="photo">${IMG('cheer-laugh','Cheerleaders laughing and pointing at the tank leader')}
-      <figcaption class="cap red"><span>${L.joe?'HA! LOOK AT JOE’S TEAM':'HA! LOOK AT '+esc(L.team.toUpperCase())}</span></figcaption>
+    <figure class="photo"><figcaption class="cap red"><span>${L.joe?'HA! LOOK AT JOE’S TEAM':'HA! LOOK AT '+esc(L.team.toUpperCase())}</span></figcaption>${IMG('cheer-laugh','Cheerleaders laughing and pointing at the tank leader')}
       <div class="arrow" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M6 10 C30 10 44 22 50 44" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><path d="M36 40 L52 54 L58 34" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg></div></figure>
     <div class="panel lcard"><div class="tag red">CURRENT TANK COMMANDER</div>${L.joe?'<div class="tag gold">🚽 JOE’S TANK WATCH</div>':''}
       <div class="lrow"><img class="lav" src="${esc(L.av)}" alt="" referrerpolicy="no-referrer" onerror="this.style.visibility='hidden'"><div><div class="team">${esc(L.team)}</div><div class="own">@${esc(L.owner)} · ${L.w}-${L.l}${L.t?'-'+L.t:''}</div></div></div>
@@ -295,6 +329,9 @@ async function main(){
     <div class="panel lcard pink"><div class="tag pink">MEANWHILE, ON TOP</div>
       <div class="lrow"><img class="lav" src="${esc(Wz.av)}" alt="" referrerpolicy="no-referrer" onerror="this.style.visibility='hidden'"><div><div class="team">${esc(Wz.team)}</div><div class="own">@${esc(Wz.owner)} · ${Wz.w}-${Wz.l}${Wz.t?'-'+Wz.t:''}</div></div></div>
       <div class="led gold">${fmt(Wz.pf)}</div><div class="ledl">POINTS FOR · NOT TANKING. NEVER TANKING.</div></div></section>`;
+  TK.at=Date.now();TK.lg=lg;
+  document.getElementById('when').textContent='UPDATED '+new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})+' · WEEK '+((lg.settings.last_scored_leg)||'?')+' SCORED';
+  try{const c=localStorage.getItem('tank:mv:'+LEAGUE+':'+(+lg.settings.last_scored_leg||0));if(c)applyMovers(lg,rows,JSON.parse(c))}catch(e){}
   document.getElementById('upd').textContent=lg.name+' '+season+' · week '+((lg.settings.last_scored_leg)||'?')+' scored · updated '+new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
   // how it works + verify the rule against last season's real rookie draft
   const how=document.getElementById('how');
@@ -315,7 +352,18 @@ async function verify(lg){
   const match=non.every((r,i)=>+s2r[String(i+1)]===r.roster_id);
   document.getElementById('verify').innerHTML=match?`<span class="ok">✔ Verified:</span> the ${lg.season} rookie draft’s picks 1–${non.length} went exactly in order of ${pl.season}’s lowest max PF among non-playoff teams.`:`<span class="bad">Heads up:</span> the ${lg.season} rookie draft order did not exactly follow ${pl.season}’s max PF. Commissioner may have set it manually.`;
 }
+async function refresh(){const b=document.getElementById('refBtn');if(b.disabled)return;b.disabled=true;b.classList.add('busy');
+  try{await main();toast('UPDATED FROM SLEEPER')}catch(e){toast('SLEEPER DIDN’T ANSWER. TRY AGAIN.')}finally{b.disabled=false;b.classList.remove('busy')}}
+document.getElementById('refBtn').addEventListener('click',refresh);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&TK.at&&Date.now()-TK.at>10*60e3)refresh()});
+document.getElementById('shareBtn').addEventListener('click',async()=>{
+  const url='https://howibrettyourmother.github.io/tank-for-jeremiah-smith/'+(LEAGUE!=='1312055708249767936'?'?league='+LEAGUE:'');
+  const o=TK.joeOdds;const text=o?(o==='>99%'?'Joe is 99%':'Joe is '+o.replace('<','under ')) +' for the 1.01. 🚽 TANK FOR JEREMIAH SMITH':'Joe’s team is on the clock for the 1.01. 🚽 TANK FOR JEREMIAH SMITH';
+  if(navigator.share){try{await navigator.share({title:'TANK FOR JEREMIAH SMITH',text,url});return}catch(e){if(e&&e.name==='AbortError')return}}
+  try{await navigator.clipboard.writeText(text+' '+url);toast('LINK COPIED. PASTE IT IN THE LEAGUE CHAT.')}catch(e){prompt('Copy this:',text+' '+url)}
+  window.__shared=text});
 main().catch(e=>{document.querySelector('#tbl tbody').innerHTML=`<tr><td colspan="6" class="err">Couldn’t reach Sleeper (${esc(e.message)}). Refresh in a minute. League ID: ${esc(LEAGUE)} · use ?league=&lt;id&gt; for another league.</td></tr>`});
 </script>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

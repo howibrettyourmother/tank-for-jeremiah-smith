@@ -9,3 +9,5 @@ Sections: tank leader hero, live pick order, **Tank Race odds for 1.01** (4,000-
 Look: broadcast-style night-stadium theme. The two cheer squad photos (`img/cheer-laugh-*.webp`, `img/cheer-swoon-*.webp`, 600w/1024w, soft-faded edges) appear once each: laughing at the tank leader card and swooning over the Wilson Weasels card.
 
 Game link: Morehouse More Problems opens this page in the same tab (`?from=game&back=<game url>`). The pinned BACK TO THE GAME button uses history.back() when it came from the game (so iOS home-screen mode never gets stranded) and falls back to a plain link. Opened directly, it reads PLAY MOREHOUSE MORE PROBLEMS.
+
+Extras: refresh button (auto-refreshes when you come back after 10+ min), share button (`navigator.share`, falls back to copying the link), Sleeper/iMessage link preview (`og.jpg`, 1200x630), and weekly movers (▲/▼ vs last week's tank order; needs last week's best lineups, so it shows once League Shame has loaded on that device, then it's cached per scored week).
