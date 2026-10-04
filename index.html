@@ -50,6 +50,7 @@ tr.po td.pk{color:var(--mute)}
 tr.wz td{background:rgba(255,107,214,.10)}
 .pill{display:inline-block;font-size:9px;padding:2px 6px;border-radius:999px;background:#3a2457;color:#ddd;margin-left:4px;vertical-align:middle;font-family:Arial,sans-serif;font-weight:700}
 .pill.red{background:var(--red);color:#fff}.pill.pink{background:#ff4fa8;color:#fff}
+.joe{display:block;margin:3px 0;background:#e3262e;color:#fff;border-radius:6px;padding:2px 6px;font:900 10px/1.25 Arial Black,Arial;white-space:normal}.pk27{display:block;color:#9fd3ff;font-size:9.5px;font-family:Arial,sans-serif;font-weight:700}
 .talk{color:#ff9a9a;font-size:10px;font-family:Arial,sans-serif;font-weight:700;white-space:normal}
 .note{color:#cfc6de;font-family:Arial,sans-serif;font-size:13px;line-height:1.5}
 .note b{color:#fff}
@@ -147,11 +148,14 @@ const style=document.createElement('style');style.textContent='@keyframes hf{0%{
 const TALK1=['Can’t even tank right… wait, yes he can.','Max PF lower than his waiver priority.','Lineup so bad the bench is embarrassed.','Starting a kicker in the FLEX energy.','Max PF says: even perfect lineups lose.','Jeremiah Smith’s agent is already on the phone.'];
 const TALK=['Tanking with purpose.','Trying to lose, keeps scoring. Rookie mistake.','One more dud week and you’re in it.','Bench full of breakout guys. Shame.','Stop setting good lineups.','Your max PF is too good. Bench those studs.'];
 async function main(){
-  const [lg,rosters,users]=await Promise.all([j('league/'+LEAGUE),j('league/'+LEAGUE+'/rosters'),j('league/'+LEAGUE+'/users')]);
+  const [lg,rosters,users,traded]=await Promise.all([j('league/'+LEAGUE),j('league/'+LEAGUE+'/rosters'),j('league/'+LEAGUE+'/users'),j('league/'+LEAGUE+'/traded_picks').catch(()=>[])]);
+  // next season's rookie picks owned: everyone starts with draft_rounds of their own, then apply trades
+  const NEXT=String(+lg.season+1),RD=+lg.settings.draft_rounds||4,picks={},firsts={};rosters.forEach(r=>{picks[r.roster_id]=RD;firsts[r.roster_id]=1});
+  (Array.isArray(traded)?traded:[]).filter(t=>String(t.season)===NEXT&&+t.round<=RD).forEach(t=>{picks[t.roster_id]--;picks[t.owner_id]=(picks[t.owner_id]||0)+1;if(+t.round===1){firsts[t.roster_id]--;firsts[t.owner_id]=(firsts[t.owner_id]||0)+1}});
   const U=Object.fromEntries(users.map(u=>[u.user_id,u])),pt=+lg.settings.playoff_teams||6,season=lg.season;
   document.title='TANK FOR JEREMIAH SMITH · '+lg.name;
   const rows=rosters.map(r=>{const s=r.settings||{},u=U[r.owner_id]||{};return{rid:r.roster_id,uid:r.owner_id,team:clean(u.metadata&&u.metadata.team_name)||u.display_name||('Team '+r.roster_id),owner:u.display_name||'',av:avatar(u),
-    w:s.wins||0,l:s.losses||0,t:s.ties||0,pf:num(s.fpts,s.fpts_decimal),max:num(s.ppts,s.ppts_decimal),weasel:r.owner_id===BRETT_USER}});
+    w:s.wins||0,l:s.losses||0,t:s.ties||0,pf:num(s.fpts,s.fpts_decimal),max:num(s.ppts,s.ppts_decimal),weasel:r.owner_id===BRETT_USER,joe:/^joebags85$/i.test(u.username||u.display_name||'')}});
   // current-standings projection: playoff spots by record (win % then points-for, Sleeper's default tiebreak)
   const pct=r=>(r.w+r.t/2)/Math.max(1,r.w+r.l+r.t);
   const byRec=[...rows].sort((a,b)=>pct(b)-pct(a)||b.pf-a.pf);byRec.forEach((r,i)=>{r.seed=i+1;r.po=i<pt});
@@ -162,12 +166,12 @@ async function main(){
   tb.innerHTML=[...out,...ins].map((r,i)=>{const gap=r.po?'—':(r.pick===1?'<span class="pill red">ON THE CLOCK</span>':'+'+fmt(r.max-low));
     const talk=r.po?'':(r.pick===1?TALK1[(r.rid)%TALK1.length]:TALK[(r.rid+r.pick)%TALK.length]);
     return `<tr class="${r.po?'po':''} ${r.pick===1?'p1':''} ${r.weasel?'wz':''}"><td class="pk">${r.po?'PO':'#'+r.pick}</td>
-      <td class="tm">${r.av?`<img class="av" src="${esc(r.av)}" alt="" loading="lazy" referrerpolicy="no-referrer">`:''}<span class="nm">${esc(r.team)}${r.po?'<span class="pill">PLAYOFF SEED '+r.seed+'</span>':''}${r.weasel?'<span class="pill pink">BEST TEAM IN THE LEAGUE</span>':''}</span><span class="ow">@${esc(r.owner)}</span>${talk?`<span class="talk">${esc(talk)}</span>`:''}</td>
+      <td class="tm">${r.av?`<img class="av" src="${esc(r.av)}" alt="" loading="lazy" referrerpolicy="no-referrer">`:''}<span class="nm">${esc(r.team)}${r.po?'<span class="pill">PLAYOFF SEED '+r.seed+'</span>':''}${r.weasel?'<span class="pill pink">BEST TEAM IN THE LEAGUE</span>':''}</span><span class="ow">@${esc(r.owner)}</span>${r.joe?`<span class="joe">🚽 JOE’S TANK WATCH: ${picks[r.rid]} ${NEXT} picks stockpiled. The tank is the plan.</span>`:''}${talk?`<span class="talk">${esc(talk)}</span>`:''}<span class="pk27">${NEXT} PICKS: ${picks[r.rid]} (${firsts[r.rid]} 1st${firsts[r.rid]===1?'':'s'})</span></td>
       <td>${r.w}-${r.l}${r.t?'-'+r.t:''}</td><td class="hide-s">${fmt(r.pf)}</td><td>${fmt(r.max)}</td><td>${gap}</td></tr>${r.weasel?`<tr class="po wz wzc"><td colspan="6"><div class="cheer">${squad('swoon',false,[1,2],'Cheerleaders swooning over the Wilson Weasels',true)}<span>WILSON WEASELS:<br>BEST TEAM IN THE LEAGUE</span>${squad('swoon',true,[3,0],'Cheerleaders swooning over the Wilson Weasels',true)}</div></td></tr>`:''}`}).join('');
   // hero: the tank commander, roasted by the cheer squad
   const L=out[0];
   if(L)document.getElementById('hero').innerHTML=`<div class="card"><div class="hero">${squad('laugh',false,[0,1],'Cheerleaders pointing and laughing at the tank leader')}
-    <div class="leader"><span class="tag">CURRENT TANK COMMANDER</span><img src="${esc(L.av)}" alt="" referrerpolicy="no-referrer" onerror="this.style.visibility='hidden'"><div class="team">${esc(L.team)}</div><div class="own">@${esc(L.owner)} · ${L.w}-${L.l}${L.t?'-'+L.t:''}</div>
+    <div class="leader"><span class="tag">${L.joe?'JOE’S TANK WATCH · ':''}CURRENT TANK COMMANDER</span><img src="${esc(L.av)}" alt="" referrerpolicy="no-referrer" onerror="this.style.visibility='hidden'"><div class="team">${esc(L.team)}</div><div class="own">@${esc(L.owner)} · ${L.w}-${L.l}${L.t?'-'+L.t:''}</div>
       <div class="num">${fmt(L.max)}<small>MAX PF · LOWEST IN THE LEAGUE</small></div><div class="bubble">${esc(TALK1[L.rid%TALK1.length])}</div></div>
     ${squad('laugh',true,[2,3],'Cheerleaders pointing and laughing at the tank leader')}</div></div>`;
   // Wilson Weasels: adored by the same squad
