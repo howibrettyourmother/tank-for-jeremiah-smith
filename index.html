@@ -22,7 +22,10 @@ body{margin:0;color:var(--ink);font:14px/1.4 -apple-system,BlinkMacSystemFont,"S
    radial-gradient(60vmax 38vmax at 92% -6%,rgba(190,215,255,.30),transparent 60%),
    radial-gradient(90vmax 50vmax at 50% 112%,rgba(40,120,60,.38),transparent 65%),
    linear-gradient(180deg,#0b1220 0%,#05070d 45%,#04060a 100%) fixed;
-  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+  padding:0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.backbar{position:sticky;top:0;z-index:50;padding:max(6px,env(safe-area-inset-top)) 10px 6px;background:linear-gradient(180deg,rgba(5,7,13,.96),rgba(5,7,13,.82));-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
+.backbtn{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 16px;border-radius:8px;font:700 15px/1 var(--disp);letter-spacing:.08em;color:#1a1200;text-decoration:none;background:linear-gradient(180deg,#ffe07a,#e3a400);box-shadow:0 3px 0 #8a6200,0 6px 16px rgba(0,0,0,.5);-webkit-tap-highlight-color:transparent}
+.backbtn:active{transform:translateY(2px);box-shadow:0 1px 0 #8a6200}
 body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
   background:repeating-linear-gradient(90deg,transparent 0 3px,rgba(255,255,255,.012) 3px 4px),radial-gradient(4px 4px at 12% 4%,#fff,transparent),radial-gradient(4px 4px at 18% 3%,#fff,transparent),radial-gradient(4px 4px at 82% 3%,#fff,transparent),radial-gradient(4px 4px at 88% 4%,#fff,transparent);opacity:.9}
 .wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:14px 12px 40px}
@@ -115,6 +118,7 @@ ol.wall{margin:4px 0 0;padding-left:22px;font-size:13px;line-height:1.45;color:#
 </style>
 </head>
 <body>
+<nav class="backbar"><a id="backBtn" class="backbtn" href="https://howibrettyourmother.github.io/mo-morehouse-mo-problems/">&#9664; BACK TO THE GAME</a></nav>
 <div class="wrap">
   <header class="bug"><div class="live"><i></i>LIVE · SLEEPER</div><h1>TANK FOR<span>JEREMIAH SMITH</span></h1></header>
   <div class="sub">SHADYNASTY · non-playoff rookie picks go by the <b>LOWEST MAX PF</b>. Live from Sleeper. Race to the bottom, boys.</div>
@@ -132,6 +136,13 @@ ol.wall{margin:4px 0 0;padding-left:22px;font-size:13px;line-height:1.45;color:#
 </div>
 <script>
 const API='https://api.sleeper.app/v1/';
+// BACK TO THE GAME: works in a normal tab and in the game's iOS home-screen mode. history.back() when we came from the game
+// (keeps the same web view / standalone session), otherwise a plain same-tab link to the game.
+(function(){const GAME='https://howibrettyourmother.github.io/mo-morehouse-mo-problems/',q=new URLSearchParams(location.search),btn=document.getElementById('backBtn');
+  let back=q.get('back')||'';if(!/^(https:\/\/howibrettyourmother\.github\.io\/|http:\/\/(127\.0\.0\.1|localhost)(:\d+)?\/)/.test(back))back=GAME;
+  const fromGame=q.get('from')==='game';btn.href=back;if(!fromGame)btn.innerHTML='&#127918; PLAY MOREHOUSE MORE PROBLEMS';
+  btn.addEventListener('click',e=>{const ref=document.referrer||'';if(fromGame&&history.length>1&&ref&&ref.split('?')[0]===back.split('?')[0]){e.preventDefault();history.back();setTimeout(()=>{location.href=back},900)}});
+})();
 const LEAGUE=(new URLSearchParams(location.search).get('league')||'1312055708249767936').replace(/[^0-9]/g,'');
 const BRETT_USER='603082868373135360';
 const j=u=>fetch(API+u,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(u+' '+r.status);return r.json()});
