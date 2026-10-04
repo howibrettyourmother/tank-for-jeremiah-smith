@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#12061f">
+<title>TANK FOR JEREMIAH SMITH · SHADYNASTY</title>
+<meta name="description" content="SHADYNASTY race to the bottom: rookie picks for non-playoff teams go by LOWEST max PF. Live from Sleeper.">
+<meta property="og:title" content="TANK FOR JEREMIAH SMITH · SHADYNASTY">
+<meta property="og:description" content="Live tank standings: the lowest max PF gets the #1 rookie pick.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23c0141b'/><text x='32' y='44' font-size='34' text-anchor='middle' font-family='Arial Black' fill='%23ffd400'>T</text></svg>">
+<style>
+:root{--red:#e3262e;--gold:#ffd400;--bg:#12061f;--card:#1d0b30;--ink:#fff;--mute:#9a8fb0}
+*{box-sizing:border-box}
+html,body{margin:0;background:radial-gradient(1200px 600px at 50% -10%,#3b1060,#12061f 60%) fixed,#12061f;color:var(--ink);font-family:"Arial Black",Impact,"Helvetica Neue",Arial,sans-serif}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.wrap{max-width:980px;margin:0 auto;padding:14px 12px 40px}
+h1{margin:6px 0 0;text-align:center;font-size:clamp(30px,8vw,64px);line-height:.95;color:var(--red);text-shadow:0 3px 0 #000,0 0 22px rgba(227,38,46,.45);letter-spacing:.01em}
+h1 span{display:block;color:var(--gold);font-size:.62em}
+.sub{text-align:center;color:#fff;font-size:clamp(11px,2.8vw,14px);margin:8px 0 14px;opacity:.9}
+.sub b{color:var(--gold)}
+.card{background:linear-gradient(180deg,#24103a,#170828);border:3px solid var(--gold);border-radius:16px;box-shadow:0 0 30px rgba(255,212,0,.15);padding:12px;margin:12px 0}
+.hero{display:grid;grid-template-columns:1fr minmax(0,1.3fr) 1fr;align-items:end;gap:6px}
+.hero svg{width:100%;height:auto;display:block}
+.leader{text-align:center;padding:10px 6px}
+.leader .tag{display:inline-block;background:var(--red);color:#fff;border-radius:999px;padding:4px 12px;font-size:12px;letter-spacing:.06em}
+.leader img{width:84px;height:84px;border-radius:50%;border:4px solid var(--red);margin:10px auto 6px;display:block;object-fit:cover;background:#333}
+.leader .team{font-size:clamp(18px,4.6vw,28px);color:#fff}
+.leader .own{color:var(--mute);font-size:12px}
+.leader .num{color:var(--gold);font-size:clamp(22px,6vw,38px);margin-top:4px}
+.leader .num small{display:block;color:#fff;font-size:11px;opacity:.8}
+.bubble{font-size:12px;color:#111;background:#fff;border-radius:12px;padding:4px 8px;display:inline-block;margin-bottom:4px;transform:rotate(-4deg)}
+.weasel{border-color:#ff6bd6;box-shadow:0 0 34px rgba(255,107,214,.25)}
+.weasel .leader .tag{background:#ff4fa8}
+.weasel .leader img{border-color:var(--gold)}
+.caption{text-align:center;font-size:clamp(16px,4.4vw,26px);color:var(--gold);text-shadow:0 2px 0 #000;margin-top:6px}
+table{width:100%;border-collapse:collapse;font-size:clamp(11px,2.9vw,14px)}
+th{color:var(--mute);font-size:10px;letter-spacing:.06em;text-align:right;padding:6px 4px;border-bottom:2px solid #3a2457}
+th:nth-child(2),td:nth-child(2){text-align:left}
+td{padding:7px 4px;border-bottom:1px solid #2a1844;text-align:right;white-space:nowrap}
+td.tm{white-space:normal}
+td .av{width:28px;height:28px;border-radius:50%;vertical-align:middle;margin-right:8px;object-fit:cover;background:#333;float:left}
+td .nm{display:block;color:#fff}
+td .ow{display:block;color:var(--mute);font-size:10px;font-family:Arial,sans-serif}
+td.pk{color:var(--gold);font-size:1.15em}
+tr.p1 td{background:rgba(227,38,46,.18)}
+tr.po td{opacity:.38}
+tr.po.wz td{opacity:.9}
+tr.po td.pk{color:var(--mute)}
+tr.wz td{background:rgba(255,107,214,.10)}
+.pill{display:inline-block;font-size:9px;padding:2px 6px;border-radius:999px;background:#3a2457;color:#ddd;margin-left:4px;vertical-align:middle;font-family:Arial,sans-serif;font-weight:700}
+.pill.red{background:var(--red);color:#fff}.pill.pink{background:#ff4fa8;color:#fff}
+.talk{color:#ff9a9a;font-size:10px;font-family:Arial,sans-serif;font-weight:700;white-space:normal}
+.note{color:#cfc6de;font-family:Arial,sans-serif;font-size:13px;line-height:1.5}
+.note b{color:#fff}
+.ok{color:#7dff4a}.bad{color:#ff9a9a}
+.foot{text-align:center;color:var(--mute);font-family:Arial,sans-serif;font-size:12px;margin-top:18px}
+.foot a{color:var(--gold)}
+.err{color:#ff9a9a;text-align:center;font-family:Arial,sans-serif}
+@media (max-width:400px){.card{padding:10px 7px}th{white-space:normal}td .pill.red{white-space:normal;display:inline-block;max-width:58px;text-align:center;line-height:1.1}td,th{padding-left:2px;padding-right:2px}td .av{width:22px;height:22px;margin-right:5px}td .ow{word-break:break-all}td .pill{font-size:8.5px;padding:2px 5px}}
+@media (max-width:560px){.hide-s{display:none}.hero{grid-template-columns:0.8fr 1.3fr 0.8fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>TANK FOR<span>JEREMIAH SMITH</span></h1>
+  <div class="sub">SHADYNASTY · non-playoff rookie picks go by the <b>LOWEST MAX PF</b>. Live from Sleeper. Race to the bottom, boys.</div>
+  <div id="hero"></div>
+  <div class="card">
+    <table id="tbl"><thead><tr><th>PICK</th><th>TEAM</th><th>REC</th><th class="hide-s">PF</th><th>MAX PF</th><th>GAP TO #1</th></tr></thead><tbody><tr><td colspan="6" class="err">Loading the race to the bottom…</td></tr></tbody></table>
+  </div>
+  <div id="weasels"></div>
+  <div class="card note" id="how"></div>
+  <div class="foot">Data: public <a href="https://docs.sleeper.com/" rel="noopener">Sleeper API</a>, fetched live in your browser. Nothing stored. · <span id="upd"></span><br>
+    A SHADYNASTY production · also play <a href="https://howibrettyourmother.github.io/mo-morehouse-mo-problems/">MOREHOUSE MORE PROBLEMS</a></div>
+</div>
+<script>
+const API='https://api.sleeper.app/v1/';
+const LEAGUE=(new URLSearchParams(location.search).get('league')||'1312055708249767936').replace(/[^0-9]/g,'');
+const BRETT_USER='603082868373135360';
+const j=u=>fetch(API+u,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(u+' '+r.status);return r.json()});
+const num=(a,b)=>(+a||0)+(+b||0)/100;
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clean=s=>String(s||'').replace(/\u{1F3C6}/gu,'').trim();   // strip that emoji from team names
+const avatar=u=>u&&u.metadata&&u.metadata.avatar?u.metadata.avatar:(u&&u.avatar?'https://sleepercdn.com/avatars/thumbs/'+u.avatar:'');
+const fmt=n=>n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+// ---- cartoon cheer squad (hand-drawn SVG, generic adults, classy pro-cheer outfits) ----
+const LOOKS=[{skin:'#f1c7a5',hair:'#6b3a1f',top:'#ffd400',skirt:'#e3262e'},{skin:'#8d5a3b',hair:'#1d120c',top:'#ffffff',skirt:'#e3262e'},
+             {skin:'#d9a27c',hair:'#f2c14e',top:'#ffd400',skirt:'#b3121b'},{skin:'#c68863',hair:'#3b1f12',top:'#ffffff',skirt:'#b3121b'}];
+function cheerleader(look,mood,flip){
+  const L=LOOKS[look%LOOKS.length],s=flip?-1:1,id='c'+Math.random().toString(36).slice(2,7);
+  const star=(x,y)=>`<path d="M${x} ${y-5} l1.6 3.4 3.7 .4 -2.8 2.5 .8 3.7 -3.3 -1.9 -3.3 1.9 .8 -3.7 -2.8 -2.5 3.7 -.4z" fill="#ffd400" stroke="#b8860b" stroke-width=".6"/>`;
+  const kiss = mood==='swoon' && look%2===1;
+  const face = mood==='swoon' && !kiss
+    ? `${star(-6,-117)}${star(6,-117)}<ellipse cx="0" cy="-106" rx="3.2" ry="3.6" fill="#8b1a2b"/>`
+    : kiss
+    ? `<path d="M-9 -117 q3 3 6 0" stroke="#2a1a12" stroke-width="2" fill="none"/><path d="M3 -117 q3 3 6 0" stroke="#2a1a12" stroke-width="2" fill="none"/><path d="M-4 -107 q2 -3 4 -1 q2 -2 4 1 q-2 3 -4 2 q-2 1 -4 -2z" fill="#d6164e"/>`
+    : mood==='laugh'
+    ? `<path d="M-7 -118 q3 -3 6 0" stroke="#2a1a12" stroke-width="2" fill="none"/><path d="M3 -118 q3 -3 6 0" stroke="#2a1a12" stroke-width="2" fill="none"/>
+       <path d="M-6 -108 q7 9 14 0 z" fill="#8b1a2b"/><path d="M-4 -108 q5 3 10 0" fill="#fff"/>`
+    : `<g fill="#e3262e"><path d="M-6 -120 c-3 -4 -8 0 -4 4 l4 4 4 -4 c4 -4 -1 -8 -4 -4z"/><path d="M6 -120 c-3 -4 -8 0 -4 4 l4 4 4 -4 c4 -4 -1 -8 -4 -4z"/></g>
+       <path d="M-5 -107 q5 5 10 0" stroke="#b3123b" stroke-width="2.6" fill="none" stroke-linecap="round"/>`;
+  // arms: laugh = pointing toward the target (+x) and the other hand on her side; swoon = hands clasped near the heart, hearts float up
+  const hearts=`<g fill="#ff4fa8"><path class="hf" d="M20 -132 c-3 -5 -10 -1 -5 4 l5 5 5 -5 c5 -5 -2 -9 -5 -4z"/><path class="hf d2" d="M30 -150 c-2 -4 -8 -1 -4 3 l4 4 4 -4 c4 -4 -2 -7 -4 -3z"/><path class="hf d3" d="M12 -160 c-2 -4 -7 -1 -4 3 l4 3 4 -3 c3 -4 -2 -7 -4 -3z"/></g>`;
+  const arms = kiss
+    ? `<path d="M10 -86 Q20 -96 9 -105" stroke="${L.skin}" stroke-width="7" stroke-linecap="round" fill="none"/><circle cx="7" cy="-106" r="4.5" fill="${L.skin}"/>
+       <path d="M-10 -86 Q-22 -104 -24 -122" stroke="${L.skin}" stroke-width="7" stroke-linecap="round" fill="none"/><circle cx="-25" cy="-126" r="10" fill="${L.top}" stroke="#fff" stroke-width="1.5" stroke-dasharray="3 2"/>
+       <path class="kf" d="M22 -112 q3 -4 6 -1 q3 -3 6 1 q-3 4 -6 3 q-3 1 -6 -3z" fill="#d6164e"/>${hearts}`
+    : mood==='laugh'
+    ? `<path d="M10 -86 L44 -98" stroke="${L.skin}" stroke-width="7" stroke-linecap="round"/><circle cx="46" cy="-99" r="4.5" fill="${L.skin}"/><path d="M48 -100 l9 -3" stroke="${L.skin}" stroke-width="3.5" stroke-linecap="round"/>
+       <path d="M-10 -86 Q-26 -70 -16 -58" stroke="${L.skin}" stroke-width="7" stroke-linecap="round" fill="none"/><circle cx="-18" cy="-58" r="10" fill="${L.top}" stroke="#fff" stroke-width="1.5" stroke-dasharray="3 2"/>`
+    : `<path d="M10 -86 Q14 -74 2 -76" stroke="${L.skin}" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M-10 -86 Q-14 -74 -2 -76" stroke="${L.skin}" stroke-width="7" stroke-linecap="round" fill="none"/><circle cx="0" cy="-76" r="5" fill="${L.skin}"/>
+       <g fill="#ff4fa8"><path class="hf" d="M20 -132 c-3 -5 -10 -1 -5 4 l5 5 5 -5 c5 -5 -2 -9 -5 -4z"/><path class="hf d2" d="M30 -150 c-2 -4 -8 -1 -4 3 l4 4 4 -4 c4 -4 -2 -7 -4 -3z"/><path class="hf d3" d="M12 -160 c-2 -4 -7 -1 -4 3 l4 3 4 -3 c3 -4 -2 -7 -4 -3z"/></g>`;
+  return `<g transform="scale(${s},1)">
+   <!-- hair back (long glam waves) -->
+   <path d="M-17 -126 Q-24 -96 -16 -82 Q0 -78 16 -82 Q24 -96 17 -126 Z" fill="${L.hair}"/>
+   <!-- legs + white cheer boots -->
+   <path d="M-6 -30 L-8 -6" stroke="${L.skin}" stroke-width="7" stroke-linecap="round"/><path d="M6 -30 L8 -6" stroke="${L.skin}" stroke-width="7" stroke-linecap="round"/>
+   <path d="M-13 -14 h10 v12 h-12 z" fill="#fff"/><path d="M3 -14 h10 v12 h-12 z" fill="#fff" transform="translate(2 0)"/>
+   <!-- pleated skirt -->
+   <path d="M-15 -52 L15 -52 L22 -28 L-22 -28 Z" fill="${L.skirt}"/><path d="M-8 -52 L-11 -28 M0 -52 L0 -28 M8 -52 L11 -28" stroke="rgba(0,0,0,.18)" stroke-width="1.5"/>
+   <!-- midriff + knotted crop top -->
+   <rect x="-10" y="-64" width="20" height="13" fill="${L.skin}"/>
+   <path d="M-14 -92 Q0 -97 14 -92 L12 -66 L-12 -66 Z" fill="${L.top}"/><path d="M-12 -66 L0 -61 L12 -66" stroke="${L.skirt}" stroke-width="3" fill="none"/><circle cx="0" cy="-63" r="3" fill="${L.skirt}"/>
+   <path d="M-6 -93 L0 -84 L6 -93" stroke="${L.skirt}" stroke-width="2" fill="none"/>
+   ${arms}
+   <!-- neck + face -->
+   <rect x="-4" y="-100" width="8" height="8" fill="${L.skin}"/>
+   <ellipse cx="0" cy="-114" rx="13" ry="15" fill="${L.skin}"/>
+   <ellipse cx="-8" cy="-109" rx="3.4" ry="2" fill="rgba(255,90,120,.35)"/><ellipse cx="8" cy="-109" rx="3.4" ry="2" fill="rgba(255,90,120,.35)"/>
+   ${face}
+   <!-- hair front: side-swept volume + ponytail bow -->
+   <path d="M-14 -118 Q-12 -134 2 -131 Q15 -130 14 -116 Q8 -126 -2 -124 Q-9 -123 -14 -118 Z" fill="${L.hair}"/>
+   <path d="M12 -130 q10 2 9 14" stroke="${L.hair}" stroke-width="6" fill="none" stroke-linecap="round"/>
+   <path d="M8 -132 l6 -4 l0 8 z M8 -132 l-1 -7 l7 3 z" fill="${L.skirt}"/>
+   <!-- pom-pom -->
+   ${mood==='laugh'||kiss?'':`<circle cx="-24" cy="-40" r="10" fill="${L.top}" stroke="#fff" stroke-width="1.5" stroke-dasharray="3 2"/>`}
+  </g>`;
+}
+function squad(mood,flip,looks,label,mini){
+  const w=150,h=190;return `<svg viewBox="${flip?-140:-10} -180 ${w} ${h}" role="img" aria-label="${esc(label)}">
+    ${mini?'':mood==='laugh'?`<text x="${flip?-70:60}" y="-160" text-anchor="middle" font-size="16" font-family="Arial Black" fill="#fff" stroke="#000" stroke-width="3" paint-order="stroke">HA! HA!</text>`:`<text x="${flip?-70:60}" y="-164" text-anchor="middle" font-size="13" font-family="Arial Black" fill="#ff8fd6" stroke="#000" stroke-width="3" paint-order="stroke">XOXO ♥ MWAH!</text>`}
+    <g transform="translate(${flip?-30:30} 0)">${cheerleader(looks[0],mood,flip)}</g><g transform="translate(${flip?-92:92} 4) scale(.94)">${cheerleader(looks[1],mood,flip)}</g></svg>`}
+const style=document.createElement('style');style.textContent='@keyframes hf{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-26px);opacity:0}}.hf{animation:hf 2.4s ease-out infinite}@keyframes kf{0%{transform:translate(0,0) scale(.6);opacity:0}20%{opacity:1}100%{transform:translate(30px,-14px) scale(1.2);opacity:0}}.kf{animation:kf 2s ease-out infinite;transform-box:fill-box}.d2{animation-delay:.8s}.cheer{display:flex;align-items:center;justify-content:center;gap:10px;color:#ff8fd6;font:900 14px/1.2 Arial Black,Arial;letter-spacing:.5px;text-align:center}.cheer svg{width:72px;height:91px;flex:none}tr.wzc td{padding-top:0;border-top:0}@media (max-width:440px){.cheer{font-size:10.5px;gap:2px}.cheer svg{width:50px;height:63px}}.d3{animation-delay:1.6s}@media (prefers-reduced-motion:reduce){.hf,.kf{animation:none}}';document.head.appendChild(style);
+
+const TALK1=['Can’t even tank right… wait, yes he can.','Max PF lower than his waiver priority.','Lineup so bad the bench is embarrassed.','Starting a kicker in the FLEX energy.','Max PF says: even perfect lineups lose.','Jeremiah Smith’s agent is already on the phone.'];
+const TALK=['Tanking with purpose.','Trying to lose, keeps scoring. Rookie mistake.','One more dud week and you’re in it.','Bench full of breakout guys. Shame.','Stop setting good lineups.','Your max PF is too good. Bench those studs.'];
+async function main(){
+  const [lg,rosters,users]=await Promise.all([j('league/'+LEAGUE),j('league/'+LEAGUE+'/rosters'),j('league/'+LEAGUE+'/users')]);
+  const U=Object.fromEntries(users.map(u=>[u.user_id,u])),pt=+lg.settings.playoff_teams||6,season=lg.season;
+  document.title='TANK FOR JEREMIAH SMITH · '+lg.name;
+  const rows=rosters.map(r=>{const s=r.settings||{},u=U[r.owner_id]||{};return{rid:r.roster_id,uid:r.owner_id,team:clean(u.metadata&&u.metadata.team_name)||u.display_name||('Team '+r.roster_id),owner:u.display_name||'',av:avatar(u),
+    w:s.wins||0,l:s.losses||0,t:s.ties||0,pf:num(s.fpts,s.fpts_decimal),max:num(s.ppts,s.ppts_decimal),weasel:r.owner_id===BRETT_USER}});
+  // current-standings projection: playoff spots by record (win % then points-for, Sleeper's default tiebreak)
+  const pct=r=>(r.w+r.t/2)/Math.max(1,r.w+r.l+r.t);
+  const byRec=[...rows].sort((a,b)=>pct(b)-pct(a)||b.pf-a.pf);byRec.forEach((r,i)=>{r.seed=i+1;r.po=i<pt});
+  const out=rows.filter(r=>!r.po).sort((a,b)=>a.max-b.max||a.pf-b.pf);out.forEach((r,i)=>r.pick=i+1);
+  const ins=rows.filter(r=>r.po).sort((a,b)=>a.seed-b.seed);
+  const low=out.length?out[0].max:0;
+  const tb=document.querySelector('#tbl tbody');
+  tb.innerHTML=[...out,...ins].map((r,i)=>{const gap=r.po?'—':(r.pick===1?'<span class="pill red">ON THE CLOCK</span>':'+'+fmt(r.max-low));
+    const talk=r.po?'':(r.pick===1?TALK1[(r.rid)%TALK1.length]:TALK[(r.rid+r.pick)%TALK.length]);
+    return `<tr class="${r.po?'po':''} ${r.pick===1?'p1':''} ${r.weasel?'wz':''}"><td class="pk">${r.po?'PO':'#'+r.pick}</td>
+      <td class="tm">${r.av?`<img class="av" src="${esc(r.av)}" alt="" loading="lazy" referrerpolicy="no-referrer">`:''}<span class="nm">${esc(r.team)}${r.po?'<span class="pill">PLAYOFF SEED '+r.seed+'</span>':''}${r.weasel?'<span class="pill pink">BEST TEAM IN THE LEAGUE</span>':''}</span><span class="ow">@${esc(r.owner)}</span>${talk?`<span class="talk">${esc(talk)}</span>`:''}</td>
+      <td>${r.w}-${r.l}${r.t?'-'+r.t:''}</td><td class="hide-s">${fmt(r.pf)}</td><td>${fmt(r.max)}</td><td>${gap}</td></tr>${r.weasel?`<tr class="po wz wzc"><td colspan="6"><div class="cheer">${squad('swoon',false,[1,2],'Cheerleaders swooning over the Wilson Weasels',true)}<span>WILSON WEASELS:<br>BEST TEAM IN THE LEAGUE</span>${squad('swoon',true,[3,0],'Cheerleaders swooning over the Wilson Weasels',true)}</div></td></tr>`:''}`}).join('');
+  // hero: the tank commander, roasted by the cheer squad
+  const L=out[0];
+  if(L)document.getElementById('hero').innerHTML=`<div class="card"><div class="hero">${squad('laugh',false,[0,1],'Cheerleaders pointing and laughing at the tank leader')}
+    <div class="leader"><span class="tag">CURRENT TANK COMMANDER</span><img src="${esc(L.av)}" alt="" referrerpolicy="no-referrer" onerror="this.style.visibility='hidden'"><div class="team">${esc(L.team)}</div><div class="own">@${esc(L.owner)} · ${L.w}-${L.l}${L.t?'-'+L.t:''}</div>
+      <div class="num">${fmt(L.max)}<small>MAX PF · LOWEST IN THE LEAGUE</small></div><div class="bubble">${esc(TALK1[L.rid%TALK1.length])}</div></div>
+    ${squad('laugh',true,[2,3],'Cheerleaders pointing and laughing at the tank leader')}</div></div>`;
+  // Wilson Weasels: adored by the same squad
+  const Wz=rows.find(r=>r.weasel);
+  if(Wz)document.getElementById('weasels').innerHTML=`<div class="card weasel"><div class="hero">${squad('swoon',false,[1,2],'Cheerleaders swooning over the Wilson Weasels')}
+    <div class="leader"><span class="tag">MEANWHILE, ON TOP</span><img src="${esc(Wz.av)}" alt="" referrerpolicy="no-referrer" onerror="this.style.visibility='hidden'"><div class="team">${esc(Wz.team)}</div><div class="own">@${esc(Wz.owner)} · ${Wz.w}-${Wz.l}${Wz.t?'-'+Wz.t:''}</div>
+      <div class="num">${fmt(Wz.pf)}<small>POINTS FOR · NOT TANKING. NEVER TANKING.</small></div></div>
+    ${squad('swoon',true,[3,0],'Cheerleaders swooning over the Wilson Weasels')}</div><div class="caption">WILSON WEASELS: BEST TEAM IN THE LEAGUE</div></div>`;
+  document.getElementById('upd').textContent=lg.name+' '+season+' · week '+((lg.settings.last_scored_leg)||'?')+' scored · updated '+new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  // how it works + verify the rule against last season's real rookie draft
+  const how=document.getElementById('how');
+  how.innerHTML=`<b>HOW THE TANK WORKS.</b> ${pt} teams make the playoffs. The other ${rows.length-pt} draft picks 1–${rows.length-pt} in the rookie draft, ordered by <b>lowest max PF</b> (Sleeper “potential points”: your best possible lineup every week). Wins don’t save you and losses don’t help you. Only a sorry roster does. This page projects playoff spots from the <b>current standings</b> (win % then points for). Playoff teams are greyed out; their picks are set by playoff finish.<br><span id="verify">Checking last season’s draft…</span>`;
+  verify(lg).catch(()=>{document.getElementById('verify').textContent=''});
+}
+async function verify(lg){
+  const prev=lg.previous_league_id;if(!prev||prev==='0'){document.getElementById('verify').textContent='';return}
+  const [pl,pr,wb,drafts]=await Promise.all([j('league/'+prev),j('league/'+prev+'/rosters'),j('league/'+prev+'/winners_bracket'),j('league/'+lg.league_id+'/drafts')]);
+  const po=new Set();for(const m of wb)for(const k of ['t1','t2'])if(Number.isInteger(m[k]))po.add(m[k]);
+  const c=drafts.filter(x=>x.season===lg.season&&x.status==='complete'&&x.settings&&x.settings.rounds>1).sort((a,b)=>(b.start_time||0)-(a.start_time||0))[0];
+  const d=c&&await j('draft/'+c.draft_id);   // the list endpoint omits slot_to_roster_id
+  if(!d){document.getElementById('verify').textContent='';return}
+  const s2r=d.slot_to_roster_id,non=pr.filter(r=>!po.has(r.roster_id)).sort((a,b)=>num(a.settings.ppts,a.settings.ppts_decimal)-num(b.settings.ppts,b.settings.ppts_decimal));
+  const match=non.every((r,i)=>+s2r[String(i+1)]===r.roster_id);
+  document.getElementById('verify').innerHTML=match?`<span class="ok">✔ Verified:</span> the ${lg.season} rookie draft’s picks 1–${non.length} went exactly in order of ${pl.season}’s lowest max PF among non-playoff teams.`:`<span class="bad">Heads up:</span> the ${lg.season} rookie draft order did not exactly follow ${pl.season}’s max PF. Commissioner may have set it manually.`;
+}
+main().catch(e=>{document.querySelector('#tbl tbody').innerHTML=`<tr><td colspan="6" class="err">Couldn’t reach Sleeper (${esc(e.message)}). Refresh in a minute. League ID: ${esc(LEAGUE)} · use ?league=&lt;id&gt; for another league.</td></tr>`});
+</script>
+</body>
+</html>
