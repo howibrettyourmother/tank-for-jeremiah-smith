@@ -60,6 +60,15 @@ tr.wz td{background:rgba(255,107,214,.10)}
 .err{color:#ff9a9a;text-align:center;font-family:Arial,sans-serif}
 @media (max-width:400px){.card{padding:10px 7px}th{white-space:normal}td .pill.red{white-space:normal;display:inline-block;max-width:58px;text-align:center;line-height:1.1}td,th{padding-left:2px;padding-right:2px}td .av{width:22px;height:22px;margin-right:5px}td .ow{word-break:break-all}td .pill{font-size:8.5px;padding:2px 5px}}
 @media (max-width:560px){.hide-s{display:none}.hero{grid-template-columns:0.8fr 1.3fr 0.8fr}}
+h2{margin:2px 0 4px;font-size:clamp(17px,4.6vw,24px);color:var(--gold);letter-spacing:.02em}
+h3{margin:14px 0 4px;font-size:14px;color:#ff9a9a;letter-spacing:.04em}
+.hint{color:var(--mute);font:12px/1.35 Arial,sans-serif;margin-bottom:6px}
+table.mini th:first-child,table.mini td:first-child{text-align:left}table.mini th:nth-child(2),table.mini td:nth-child(2){text-align:right}table.mini td{white-space:nowrap}.swoonmini{display:inline-flex;align-items:center;gap:2px;color:#ff8fd6;font:900 9px/1 Arial Black,Arial;vertical-align:middle}.swoonmini svg{width:26px;height:33px}table.mini td.tm{white-space:normal}
+.bar{display:block;height:5px;background:#2a1844;border-radius:3px;margin:3px 0;max-width:180px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--gold));border-radius:3px}
+.pill.gold{background:var(--gold);color:#111}
+.blunder{background:rgba(227,38,46,.14);border:1px solid rgba(227,38,46,.5);border-radius:10px;padding:8px 10px;font:13px/1.4 Arial,sans-serif;color:#fff;margin-bottom:8px}
+.blunder .big{font:900 18px/1.2 Arial Black,Arial;color:var(--gold)}.blunder .call{margin-top:6px;color:#ffd0d0}
+ol.wall{margin:4px 0 0;padding-left:22px;font:13px/1.45 Arial,sans-serif;color:#fff}ol.wall li{margin:4px 0}.hot{color:var(--gold)}
 </style>
 </head>
 <body>
@@ -70,9 +79,12 @@ tr.wz td{background:rgba(255,107,214,.10)}
   <div class="card">
     <table id="tbl"><thead><tr><th>PICK</th><th>TEAM</th><th>REC</th><th class="hide-s">PF</th><th>MAX PF</th><th>GAP TO #1</th></tr></thead><tbody><tr><td colspan="6" class="err">Loading the race to the bottom…</td></tr></tbody></table>
   </div>
+  <div class="card" id="odds"><h2>🏁 TANK RACE ODDS FOR 1.01</h2><div class="hint">Simulating…</div></div>
   <div id="weasels"></div>
+  <div class="card" id="hoard"></div>
+  <div class="card" id="shame"></div>
   <div class="card note" id="how"></div>
-  <div class="foot">Data: public <a href="https://docs.sleeper.com/" rel="noopener">Sleeper API</a>, fetched live in your browser. Nothing stored. · <span id="upd"></span><br>
+  <div class="foot">Data: public <a href="https://docs.sleeper.com/" rel="noopener">Sleeper API</a>, fetched live in your browser. Finished weeks are cached in this tab only. · <span id="upd"></span><br>
     A SHADYNASTY production · also play <a href="https://howibrettyourmother.github.io/mo-morehouse-mo-problems/">MOREHOUSE MORE PROBLEMS</a></div>
 </div>
 <script>
@@ -147,6 +159,108 @@ const style=document.createElement('style');style.textContent='@keyframes hf{0%{
 
 const TALK1=['Can’t even tank right… wait, yes he can.','Max PF lower than his waiver priority.','Lineup so bad the bench is embarrassed.','Starting a kicker in the FLEX energy.','Max PF says: even perfect lineups lose.','Jeremiah Smith’s agent is already on the phone.'];
 const TALK=['Tanking with purpose.','Trying to lose, keeps scoring. Rookie mistake.','One more dud week and you’re in it.','Bench full of breakout guys. Shame.','Stop setting good lineups.','Your max PF is too good. Bench those studs.'];
+// ---- session cache: finished weeks (and the future schedule) don't change, so each tab fetches them once ----
+const SS=(()=>{try{sessionStorage.setItem('_t','1');sessionStorage.removeItem('_t');return sessionStorage}catch(e){return null}})();
+async function jc(u){const k='tank:'+u;if(SS){const v=SS.getItem(k);if(v)try{return JSON.parse(v)}catch(e){}}
+  const d=await j(u);if(SS)try{SS.setItem(k,JSON.stringify(d))}catch(e){}return d}
+const pctf=x=>x>=0.995?'>99%':x>0&&x<0.005?'<1%':Math.round(x*100)+'%';
+const nameOf=(R,rid)=>{const r=R[rid];return r?r.team:'Team '+rid};
+function randn(){let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+
+// ---- Tank Race: Monte Carlo of the rest of the regular season ----
+async function tankOdds(lg,rows,pt){
+  const el=document.getElementById('odds');
+  const last=+lg.settings.last_scored_leg||0,regEnd=(+lg.settings.playoff_week_start||15)-1;
+  const weeks=[];for(let w=1;w<=regEnd;w++)weeks.push(w);
+  // past weeks are immutable -> session cache; future weeks are just the schedule (matchup_id pairs) -> also cached
+  const M=await Promise.all(weeks.map(w=>(w<=last?jc:jc)('league/'+LEAGUE+'/matchups/'+w).catch(()=>[])));
+  const R=Object.fromEntries(rows.map(r=>[r.rid,r]));
+  // per-team weekly mean = season max PF / weeks played; spread = stdev of weekly scores (scaled to max-PF size)
+  const P={};rows.forEach(r=>{const pts=[];for(let w=1;w<=last;w++){const m=(M[w-1]||[]).find(x=>x.roster_id===r.rid);if(m&&m.points!=null)pts.push(+m.points)}
+    const n=Math.max(1,last),mu=r.max/n,pm=pts.length?pts.reduce((a,b)=>a+b,0)/pts.length:0,eff=r.max>0?r.pf/r.max:0.85;
+    let sd=pts.length>1?Math.sqrt(pts.reduce((a,b)=>a+(b-pm)**2,0)/(pts.length-1)):mu*0.15;sd=Math.max(sd*(pm>0?mu/pm:1),mu*0.06);
+    P[r.rid]={mu,sd,eff:Math.min(1,Math.max(0.5,eff))}});
+  const fut=[];for(let w=last+1;w<=regEnd;w++){const ms=M[w-1]||[],by={};ms.forEach(x=>{if(x.matchup_id!=null)(by[x.matchup_id]=by[x.matchup_id]||[]).push(x.roster_id)});fut.push(Object.values(by).filter(p=>p.length===2))}
+  const N=fut.length?4000:1,ids=rows.map(r=>r.rid),c101={},cMiss={},cTop3={};ids.forEach(i=>{c101[i]=0;cMiss[i]=0;cTop3[i]=0});
+  const t0=performance.now();
+  for(let s=0;s<N;s++){
+    const W={},PF={},MX={};rows.forEach(r=>{W[r.rid]=r.w+r.t/2;PF[r.rid]=r.pf;MX[r.rid]=r.max});
+    for(const pairs of fut){const wk={};ids.forEach(i=>{const p=P[i],m=Math.max(40,p.mu+p.sd*randn());MX[i]+=m;const a=m*p.eff*(0.92+0.08*Math.random());PF[i]+=a;wk[i]=a});
+      for(const [a,b] of pairs){if(wk[a]>wk[b])W[a]++;else W[b]++}}
+    const seeded=[...ids].sort((a,b)=>W[b]-W[a]||PF[b]-PF[a]),po=new Set(seeded.slice(0,pt));
+    const outs=ids.filter(i=>!po.has(i)).sort((a,b)=>MX[a]-MX[b]);
+    outs.forEach((i,k)=>{cMiss[i]++;if(k===0)c101[i]++;if(k<3)cTop3[i]++});
+  }
+  const ms=Math.round(performance.now()-t0);
+  const list=[...rows].sort((a,b)=>c101[b.rid]-c101[a.rid]||cTop3[b.rid]-cTop3[a.rid]||a.max-b.max);
+  const left=fut.length;
+  el.innerHTML=`<h2>🏁 TANK RACE ODDS FOR 1.01</h2><div class="hint">${left?`${N.toLocaleString()} simulated finishes of the last ${left} regular-season week${left>1?'s':''}`:'Regular season is over: final order'} · each team’s weekly max PF drawn from its own average and swing · real remaining schedule.</div>
+  <table class="mini"><thead><tr><th>TEAM</th><th>1.01</th><th>TOP 3</th><th>MISS PO</th></tr></thead><tbody>${list.map(r=>{const p=c101[r.rid]/N;return `<tr class="${r.weasel?'wz':''}"><td class="tm"><span class="nm">${esc(r.team)}${r.joe?' <span class="pill red">JOE</span>':''}${r.weasel?' <span class="pill pink">BEST TEAM IN THE LEAGUE</span> '+wzMini():''}</span><span class="bar"><i style="width:${Math.max(p>0?2:0,Math.round(p*100))}%"></i></span><span class="ow">${fmt(P[r.rid].mu)}/wk max PF ± ${fmt(P[r.rid].sd)}</span></td><td><b>${pctf(p)}</b></td><td>${pctf(cTop3[r.rid]/N)}</td><td>${pctf(cMiss[r.rid]/N)}</td></tr>`}).join('')}</tbody></table>`;
+  el.dataset.ms=ms;
+}
+
+// ---- Draft Pick Hoarders: next 3 rookie drafts ----
+const wzMini=()=>`<span class="swoonmini">${squad('swoon',false,[1,2],'Cheerleaders swooning over the Wilson Weasels',true)}♥</span>`;
+function hoarders(lg,rows,traded){
+  const RD=+lg.settings.draft_rounds||4,S=[0,1,2].map(k=>String(+lg.season+1+k)),C={},F={};
+  rows.forEach(r=>{C[r.rid]={};F[r.rid]=0;S.forEach(s=>{C[r.rid][s]=RD;F[r.rid]++})});
+  (Array.isArray(traded)?traded:[]).forEach(t=>{const s=String(t.season);if(!S.includes(s)||+t.round>RD)return;
+    if(C[t.roster_id])C[t.roster_id][s]--;if(C[t.owner_id])C[t.owner_id][s]++;if(+t.round===1){if(t.roster_id in F)F[t.roster_id]--;if(t.owner_id in F)F[t.owner_id]++}});
+  const tot=r=>S.reduce((a,s)=>a+C[r.rid][s],0),list=[...rows].sort((a,b)=>tot(b)-tot(a)||F[b.rid]-F[a.rid]),top=tot(list[0]);
+  document.getElementById('hoard').innerHTML=`<h2>📦 DRAFT PICK HOARDERS</h2><div class="hint">Rookie picks owned, ${S[0]}–${S[2]} (${RD} rounds a year, so ${RD*3} is “normal”). From Sleeper’s traded picks.</div>
+  <table class="mini"><thead><tr><th>TEAM</th>${S.map(s=>`<th>${s.slice(2)}</th>`).join('')}<th>1STS</th><th>ALL</th></tr></thead><tbody>${list.map(r=>`<tr class="${r.weasel?'wz':''}"><td class="tm"><span class="nm">${esc(r.team)}${r.joe?' <span class="pill red">JOE</span>':''}${tot(r)===top?' <span class="pill gold">HOARDER</span>':''}${r.weasel?' <span class="pill pink">BEST TEAM IN THE LEAGUE</span> '+wzMini():''}</span>${r.joe?`<span class="joe">🚽 JOE’S TANK WATCH: ${tot(r)} picks and zero plans to win.</span>`:''}</td>${S.map(s=>`<td>${C[r.rid][s]}</td>`).join('')}<td>${F[r.rid]}</td><td><b>${tot(r)}</b></td></tr>`).join('')}</tbody></table>`;
+}
+
+// ---- League Shame (lazy: needs the big Sleeper players file for names/positions, so it only loads when you scroll here) ----
+const ELIG={QB:['QB'],RB:['RB'],WR:['WR'],TE:['TE'],K:['K'],DEF:['DEF'],FLEX:['RB','WR','TE'],WRRB_FLEX:['RB','WR'],REC_FLEX:['WR','TE'],SUPER_FLEX:['QB','RB','WR','TE'],IDP_FLEX:['DL','LB','DB'],DL:['DL'],LB:['LB'],DB:['DB']};
+async function playersFor(ids){
+  const k='tank:players:'+LEAGUE;let have={};if(SS)try{have=JSON.parse(SS.getItem(k)||'{}')}catch(e){}
+  if(ids.every(i=>have[i]))return have;
+  const all=await fetch(API+'players/nfl').then(r=>{if(!r.ok)throw new Error('players '+r.status);return r.json()});
+  ids.forEach(i=>{const p=all[i];if(p)have[i]={n:p.position==='DEF'?((p.first_name||'')+' '+(p.last_name||'')).trim()+' D/ST':(p.full_name||((p.first_name||'')+' '+(p.last_name||'')).trim()),p:(p.fantasy_positions&&p.fantasy_positions.length?p.fantasy_positions:[p.position]).filter(Boolean),t:p.team||'FA'};else have[i]={n:'Player '+i,p:[],t:''}});
+  if(SS)try{SS.setItem(k,JSON.stringify(have))}catch(e){}
+  return have;
+}
+function optimal(slots,players,pp,PL){
+  const left=new Set(players),order=slots.map((s,i)=>({s,i,e:ELIG[s]||[s]})).sort((a,b)=>a.e.length-b.e.length);let tot=0;
+  for(const o of order){let best=null,bp=-1;for(const id of left){const p=PL[id];if(p&&p.p.some(x=>o.e.includes(x))&&(pp[id]||0)>bp){bp=pp[id]||0;best=id}}if(best){left.delete(best);tot+=bp}}
+  return tot;
+}
+async function shame(lg,rows){
+  const el=document.getElementById('shame');el.innerHTML='<h2>🤦 LEAGUE SHAME</h2><div class="hint">Loading the receipts…</div>';
+  const last=+lg.settings.last_scored_leg||0;if(!last){el.innerHTML+='<div class="hint">No weeks scored yet. The shame starts after week 1.</div>';return}
+  const R=Object.fromEntries(rows.map(r=>[r.rid,r]));
+  const [M,T]=await Promise.all([Promise.all(Array.from({length:last},(_,k)=>jc('league/'+LEAGUE+'/matchups/'+(k+1)))),
+    Promise.all(Array.from({length:last+1},(_,k)=>(k+1<=last?jc:j)('league/'+LEAGUE+'/transactions/'+(k+1)).catch(()=>[])))]);
+  // Waiver Regret Wall: points a dropped player started for OTHER teams in this league after the drop
+  const drops=[],seen=new Set();
+  T.flat().filter(t=>t&&t.status==='complete'&&t.drops&&t.type!=='trade').sort((a,b)=>a.created-b.created).forEach(t=>{for(const [pid,rid] of Object.entries(t.drops)){const k=pid+'|'+rid;if(seen.has(k))continue;seen.add(k);drops.push({pid,rid:+rid,leg:+t.leg||1})}});
+  const regret=drops.map(d=>{let pts=0,to={};for(let w=d.leg+1;w<=last;w++)for(const m of M[w-1]||[]){if(m.roster_id===d.rid)continue;const i=(m.starters||[]).indexOf(d.pid);if(i>=0){const p=+(m.starters_points||[])[i]||0;pts+=p;to[m.roster_id]=(to[m.roster_id]||0)+p}}
+    const best=Object.entries(to).sort((a,b)=>b[1]-a[1])[0];return{...d,pts,to:best?+best[0]:null}}).filter(x=>x.pts>0).sort((a,b)=>b.pts-a.pts).slice(0,6);
+  // Bench Blunder of the Week: last scored week, optimal minus actual + worst start/sit
+  const MW=M[last-1]||[],slots=(lg.roster_positions||[]).filter(s=>!['BN','IR','TAXI'].includes(s));
+  const ids=new Set();MW.forEach(m=>(m.players||[]).forEach(p=>ids.add(p)));regret.forEach(x=>ids.add(x.pid));
+  const PL=await playersFor([...ids]);
+  const bb=MW.map(m=>{const pp=m.players_points||{},opt=optimal(slots,m.players||[],pp,PL),act=+m.points||0;
+    const bench=(m.players||[]).filter(p=>!(m.starters||[]).includes(p));let call=null;
+    (m.starters||[]).forEach((s,i)=>{const e=ELIG[slots[i]]||[slots[i]],sp=s&&s!=='0'?(+pp[s]||0):0;for(const b of bench){const P=PL[b];if(P&&P.p.some(x=>e.includes(x))){const d=(+pp[b]||0)-sp;if(!call||d>call.d)call={d,b,s,bp:+pp[b]||0,sp}}}});
+    return{rid:m.roster_id,opt,act,miss:Math.max(0,opt-act),call}}).sort((a,b)=>b.miss-a.miss);
+  const worst=MW.length?[...bb].filter(x=>x.call).sort((a,b)=>b.call.d-a.call.d)[0]:null,top=bb[0];
+  const pn=id=>id&&id!=='0'?esc((PL[id]||{}).n||'Player '+id):'an EMPTY SLOT';
+  el.innerHTML=`<h2>🤦 LEAGUE SHAME</h2>
+   <h3>BENCH BLUNDER OF THE WEEK · WEEK ${last}</h3>
+   ${top?`<div class="blunder"><div class="big">${esc(nameOf(R,top.rid))}</div><div>left <b>${fmt(top.miss)}</b> points on the bench (scored ${fmt(top.act)}, best possible ${fmt(top.opt)}).</div>
+   ${worst&&worst.call.d>0?`<div class="call">WORST START/SIT: <b>${esc(nameOf(R,worst.rid))}</b> started ${pn(worst.call.s)} (${fmt(worst.call.sp)}) over ${pn(worst.call.b)} (${fmt(worst.call.bp)}). That’s <b>${fmt(worst.call.d)}</b> points of pure feel.</div>`:''}</div>
+   <table class="mini"><thead><tr><th>TEAM</th><th>SCORED</th><th>MAX</th><th>LEFT ON BENCH</th></tr></thead><tbody>${bb.map(x=>`<tr class="${R[x.rid]&&R[x.rid].weasel?'wz':''}"><td class="tm"><span class="nm">${esc(nameOf(R,x.rid))}${R[x.rid]&&R[x.rid].joe?' <span class="pill red">JOE</span>':''}${R[x.rid]&&R[x.rid].weasel?' <span class="pill pink">BEST TEAM IN THE LEAGUE</span> '+wzMini():''}</span></td><td>${fmt(x.act)}</td><td>${fmt(x.opt)}</td><td><b>${fmt(x.miss)}</b></td></tr>`).join('')}</tbody></table>`:'<div class="hint">No lineups yet.</div>'}
+   <h3>WAIVER REGRET WALL</h3><div class="hint">Points a player started for someone else in this league after you cut him.</div>
+   ${regret.length?`<ol class="wall">${regret.map(x=>`<li><b>${esc(nameOf(R,x.rid))}</b> dropped <b>${pn(x.pid)}</b> (wk ${x.leg}) → <b class="hot">${fmt(x.pts)}</b> pts for ${esc(nameOf(R,x.to))}</li>`).join('')}</ol>`:'<div class="hint">Nobody has burned themselves on waivers yet. Give it a week.</div>'}`;
+}
+function lazyShame(lg,rows){
+  const el=document.getElementById('shame');let go=false;const run=()=>{if(go)return;go=true;shame(lg,rows).catch(e=>{el.innerHTML='<h2>🤦 LEAGUE SHAME</h2><div class="hint">Couldn’t load the receipts ('+esc(e.message)+'). Refresh later.</div>'})};
+  el.innerHTML='<h2>🤦 LEAGUE SHAME</h2><div class="hint">Scroll down to load the Bench Blunder of the Week and the Waiver Regret Wall…</div>';
+  if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();run()}},{rootMargin:'300px'});io.observe(el)}else run();
+}
+
 async function main(){
   const [lg,rosters,users,traded]=await Promise.all([j('league/'+LEAGUE),j('league/'+LEAGUE+'/rosters'),j('league/'+LEAGUE+'/users'),j('league/'+LEAGUE+'/traded_picks').catch(()=>[])]);
   // next season's rookie picks owned: everyone starts with draft_rounds of their own, then apply trades
@@ -185,6 +299,9 @@ async function main(){
   const how=document.getElementById('how');
   how.innerHTML=`<b>HOW THE TANK WORKS.</b> ${pt} teams make the playoffs. The other ${rows.length-pt} draft picks 1–${rows.length-pt} in the rookie draft, ordered by <b>lowest max PF</b> (Sleeper “potential points”: your best possible lineup every week). Wins don’t save you and losses don’t help you. Only a sorry roster does. This page projects playoff spots from the <b>current standings</b> (win % then points for). Playoff teams are greyed out; their picks are set by playoff finish.<br><span id="verify">Checking last season’s draft…</span>`;
   verify(lg).catch(()=>{document.getElementById('verify').textContent=''});
+  hoarders(lg,rows,traded);
+  lazyShame(lg,rows);
+  setTimeout(()=>tankOdds(lg,rows,pt).catch(e=>{document.getElementById('odds').innerHTML='<h2>🏁 TANK RACE ODDS FOR 1.01</h2><div class="hint">Couldn’t run the sim ('+esc(e.message)+').</div>'}),50);
 }
 async function verify(lg){
   const prev=lg.previous_league_id;if(!prev||prev==='0'){document.getElementById('verify').textContent='';return}
