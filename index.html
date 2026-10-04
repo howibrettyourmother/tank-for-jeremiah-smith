@@ -132,6 +132,38 @@ ol.wall{margin:4px 0 0;padding-left:22px;font-size:13px;line-height:1.45;color:#
 .mv{display:block;font:700 10px/1 var(--disp);letter-spacing:.04em;margin-top:2px}.mv.up{color:#ff5a4f}.mv.dn{color:#7dff6a}.mv.eq{color:var(--mute)}
 .gapm{display:none;font-size:9.5px;color:var(--mute);margin-top:2px}.gapm.red{color:#ff5a4f;font:700 9.5px/1.1 var(--disp);letter-spacing:.06em}
 @media (max-width:430px){.gapc{display:none}.gapm{display:block}td .pill.red{max-width:none}}
+/* ---- weekly recap ---- */
+.jump{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px}
+.jump a{flex:1 1 auto;min-height:40px;display:flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:rgba(20,26,40,.9);color:#e8ecf3;text-decoration:none;font:700 13px/1 var(--disp);letter-spacing:.05em}
+.jump a.on{border-color:var(--gold);color:#ffe07a}
+#recap{scroll-margin-top:64px}
+.weeks{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:2px 0 8px;scrollbar-width:none}
+.weeks::-webkit-scrollbar{display:none}
+.wk{flex:0 0 auto;min-width:56px;min-height:40px;border-radius:8px;border:1px solid var(--line);background:#141b29;color:#cfd6e2;font:700 13px/1 var(--disp);letter-spacing:.04em;cursor:pointer}
+.wk.on{background:linear-gradient(180deg,#ffe07a,#e3a400);color:#1a1200;border-color:#ffe07a}
+.awards{display:grid;grid-template-columns:1fr;gap:8px;margin:4px 0 12px}
+.award{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:10px;padding:9px 10px}
+.aw-t{font:700 12px/1.1 var(--disp);letter-spacing:.08em;color:#ffe07a}
+.aw-n{font:700 17px/1.2 var(--disp);color:#fff;margin:3px 0 2px;overflow-wrap:anywhere}.aw-n span{color:#ff6b6b;margin-left:4px}
+.aw-l,.rl{font-size:13.5px;line-height:1.38;color:#d6dbe4}.aw-l b,.rl b,.rh b{color:#fff}
+.rgame{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:10px;padding:9px 10px;margin:0 0 9px}
+.rgame.wzg{border-color:rgba(255,124,192,.55)}.rgame.joeg{border-color:rgba(255,59,59,.5)}
+.rt{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:3px 0;color:#aab3c2}
+.rt .rn{font-weight:700;overflow-wrap:anywhere;min-width:0}.rt .rs{font:700 18px/1 var(--disp);font-variant-numeric:tabular-nums;white-space:nowrap}
+.rt.win{color:#fff}.rt.win .rs{color:#7dffb0}
+.rh{font:700 15.5px/1.3 var(--disp);letter-spacing:.01em;color:#ffe07a;margin:6px 0 4px}
+.rl{margin-top:4px;padding-left:9px;border-left:2px solid rgba(255,255,255,.14)}
+.rphoto{margin:9px 0 0;padding:0}
+.rphoto img{display:block;width:100%;max-width:340px;height:auto;aspect-ratio:360/163;border-radius:8px;background:#0b0f18}
+.rphoto.swoon img{aspect-ratio:360/169}
+.rphoto figcaption{margin-top:5px;font:700 12.5px/1.2 var(--disp);letter-spacing:.06em;color:#fff;display:inline-block;padding:4px 8px;border-radius:4px;background:linear-gradient(180deg,#ff3b3b,#a90f17)}
+.rphoto.swoon figcaption{background:linear-gradient(180deg,#ff7cc0,#d02b80)}
+@media (min-width:640px){
+  .awards{grid-template-columns:1fr 1fr}
+  .withph{display:grid;grid-template-columns:minmax(0,1fr) 230px;column-gap:12px;align-items:start}
+  .withph>*:not(.rphoto){grid-column:1}.withph>.rphoto{grid-column:2;grid-row:1 / span 8;margin:0}
+  .award.withph{grid-column:1 / -1}
+}
 </style>
 </head>
 <body>
@@ -140,6 +172,8 @@ ol.wall{margin:4px 0 0;padding-left:22px;font-size:13px;line-height:1.45;color:#
   <header class="bug"><div class="live"><i></i>LIVE · SLEEPER</div><h1>TANK FOR<span>JEREMIAH SMITH</span></h1></header>
   <div class="sub" id="subline">SHADYNASTY · non-playoff rookie picks go by the <b>LOWEST MAX PF</b>. Live from Sleeper. Race to the bottom, boys.</div>
   <div class="status"><span class="when" id="when">Loading live data…</span><button class="sbtn" id="refBtn" type="button" aria-label="Refresh live data"><span class="spin">⟳</span> REFRESH</button><button class="sbtn go" id="shareBtn" type="button" aria-label="Share the tank page">📤 SHARE</button></div>
+  <nav class="jump" aria-label="Sections"><a href="#recap" class="on">📰 RECAP</a><a href="#tbl">🚽 TANK ORDER</a><a href="#odds">🏁 ODDS</a><a href="#shame">🤦 SHAME</a></nav>
+  <section class="panel" id="recap" aria-labelledby="recapTitle"><h2 id="recapTitle">📰 WEEKLY RECAP</h2><div class="weeks" id="recapWeeks" role="group" aria-label="Pick a week"></div><div id="recapBody"><div class="hint">Loading the box scores…</div></div></section>
   <div id="hero"></div>
   <div class="panel">
     <table id="tbl"><thead><tr><th>PICK</th><th>TEAM</th><th>REC</th><th class="hide-s">PF</th><th>MAX PF</th><th class="gapc">GAP TO #1</th></tr></thead><tbody><tr><td colspan="6" class="err">Loading the race to the bottom…</td></tr></tbody></table>
@@ -228,10 +262,14 @@ function hoarders(lg,rows,traded){
 const ELIG={QB:['QB'],RB:['RB'],WR:['WR'],TE:['TE'],K:['K'],DEF:['DEF'],FLEX:['RB','WR','TE'],WRRB_FLEX:['RB','WR'],REC_FLEX:['WR','TE'],SUPER_FLEX:['QB','RB','WR','TE'],IDP_FLEX:['DL','LB','DB'],DL:['DL'],LB:['LB'],DB:['DB']};
 async function playersFor(ids){
   const k='tank:players:'+LEAGUE;let have={};if(SS)try{have=JSON.parse(SS.getItem(k)||'{}')}catch(e){}
-  if(ids.every(i=>have[i]))return have;
-  const all=await fetch(API+'players/nfl').then(r=>{if(!r.ok)throw new Error('players '+r.status);return r.json()});
-  ids.forEach(i=>{const p=all[i];if(p)have[i]={n:p.position==='DEF'?((p.first_name||'')+' '+(p.last_name||'')).trim()+' D/ST':(p.full_name||((p.first_name||'')+' '+(p.last_name||'')).trim()),p:(p.fantasy_positions&&p.fantasy_positions.length?p.fantasy_positions:[p.position]).filter(Boolean),t:p.team||'FA'};else have[i]={n:'Player '+i,p:[],t:''}});
-  if(SS)try{SS.setItem(k,JSON.stringify(have))}catch(e){}
+  if(!ids.every(i=>have[i]))try{const c=JSON.parse(localStorage.getItem(k)||'null');if(c&&Date.now()-c.at<7*864e5)have=Object.assign(c.p,have)}catch(e){}
+  if(!ids.every(i=>have[i])){
+    // one download of the big players DB per page view, shared by the recap and League Shame; only a slim id -> name/position map is kept
+    if(!playersFor.slim)playersFor.slim=fetch(API+'players/nfl').then(r=>{if(!r.ok)throw new Error('players '+r.status);return r.json()}).then(all=>{const m={};
+      for(const i in all){const p=all[i];m[i]={n:p.position==='DEF'?((p.first_name||'')+' '+(p.last_name||'')).trim()+' D/ST':(p.full_name||((p.first_name||'')+' '+(p.last_name||'')).trim()),p:(p.fantasy_positions&&p.fantasy_positions.length?p.fantasy_positions:[p.position]).filter(Boolean),t:p.team||'FA'}}return m}).catch(e=>{playersFor.slim=null;throw e});
+    const m=await playersFor.slim;ids.forEach(i=>{if(!have[i])have[i]=m[i]||{n:'Player '+i,p:[],t:''}});
+    if(SS)try{SS.setItem(k,JSON.stringify(have))}catch(e){}
+    try{localStorage.setItem(k,JSON.stringify({at:Date.now(),p:have}))}catch(e){}}
   return have;
 }
 function optimal(slots,players,pp,PL){
@@ -290,6 +328,285 @@ function applyMovers(lg,rows,wk){
     el.title=d>0?`Up ${d} toward the 1.01 since week ${last-1}`:d<0?`Down ${-d} since week ${last-1}`:`Same spot as week ${last-1}`});
 }
 function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('on'),2200)}
+// ===================== WEEKLY RECAP (hand-written template bank, deterministic per week; no AI at runtime) =====================
+// {W}/{L} winner/loser team, {ws}/{ls} scores, {m} margin, {T} the team the line is about, {s} its score, {O} its opponent,
+// {P}/{pp} a player and his points, {B} points left on the bench, {J} Joe's team.
+const RB={
+blowout:[
+ "{W} beat {L} by {m}. Somebody check on {L}, that was a crime scene.",
+ "{W} {ws}, {L} {ls}. That's not a matchup, that's a public execution.",
+ "{L} got boat-raced by {m}. The waiver wire is accepting applications.",
+ "A {m}-point bodybag. {W} didn't even need its kicker.",
+ "{W} dropped {ws} and {L} just stood there and took it.",
+ "{L} lost by {m}. Even the mercy rule looked away.",
+ "Final: {W} {ws}, {L} {ls}. {L}'s lineup was a cry for help.",
+ "{W} won by {m}. {L} should be fined for showing up.",
+ "That {m}-point beatdown is going on {W}'s highlight reel and {L}'s therapy bill.",
+ "{L} got the full Madden-on-rookie treatment: down {m} and never in it.",
+ "{W} ran it up by {m}. Sportsmanship is for teams that can't score.",
+ "{L} scored {ls}. {W} scored that by halftime of the late game.",
+ "Blowout alert: {W} by {m}. {L}, delete the app and think about what you did.",
+ "{W} hung {ws} on {L}. Somebody call the commissioner, that's assault.",
+ "{L} got cooked by {m}. Medium-well. Nobody sent it back."],
+close:[
+ "{W} survived {L} by {m}. Somebody's stat correction anxiety is through the roof.",
+ "{m} points. {L} lost this one on a two-yard dump-off in garbage time.",
+ "{W} {ws}, {L} {ls}. A nail-biter, and {L} chewed all the way to the elbow.",
+ "{L} lost by {m}. Every bench decision {L} made this week is now a war crime.",
+ "Photo finish: {W} by {m}. {L} is refreshing the app like it owes them money.",
+ "{W} by {m}. {L} will be thinking about that kicker until Thanksgiving.",
+ "{m}-point loss for {L}. One extra point. One. Fucking. Point.",
+ "{W} edged {L} by {m}. Somewhere a backup tight end ruined {L}'s whole week.",
+ "{L} came within {m} and still found a way. Respect the commitment.",
+ "{W} won by {m}. {L} is drafting a strongly worded letter to the stat guys.",
+ "Down to the Monday night wire, {W} by {m}. {L} needs a drink and a better flex.",
+ "{L} lost by {m}. Close only counts in horseshoes and Joe's rebuild timeline.",
+ "{W} squeaked past {L} by {m}. Ugly, lucky, counts the same.",
+ "{m} points separated them. {L} left more than that on the bench and knows it.",
+ "{W} by {m}. {L} did everything right except score more points."],
+normal:[
+ "{W} handled {L}, {ws} to {ls}. No drama, just business.",
+ "{W} beat {L} by {m}. Workmanlike. Boring. Effective.",
+ "{L} lost to {W} by {m}. Not embarrassing. Not good either.",
+ "{W} {ws}, {L} {ls}. {L} competed for about three quarters.",
+ "{W} took care of {L} by {m}. {L}'s lineup had the energy of a Thursday night game.",
+ "{L} fell to {W}, {ls}-{ws}. The film session is going to be quiet.",
+ "{W} over {L} by {m}. Solid win, nobody's putting it on a T-shirt.",
+ "{W} won by {m}. {L} is already blaming the bye weeks.",
+ "{L} dropped one to {W}, {ls}-{ws}. Not a disaster, just a Tuesday.",
+ "{W} got the dub by {m}. {L} got a participation sticker.",
+ "{W} beat {L} {ws}-{ls}. Somebody on {L} is getting benched, and it's probably the wrong guy.",
+ "{L} lost by {m}. The vibes were fine. The points were not.",
+ "{W} took it by {m}. {L} will be on the waiver wire by Wednesday at 3am.",
+ "{W} {ws}, {L} {ls}. {L} left the stadium early to beat the traffic.",
+ "{W} beat {L} by {m} and didn't break a sweat."],
+joeLose:[
+ "Joe lost again and the tank is right on schedule. {J} is a well-oiled losing machine.",
+ "{J} put up {s}. Jeremiah Smith just felt a disturbance in the Force.",
+ "Another L for {J}. Joe's GM hat is just a bucket for tears at this point.",
+ "{J} scored {s}. That's not a lineup, that's a rebuild with a pulse.",
+ "Joe set a lineup this week. Allegedly. {J} scored {s}.",
+ "{J} lost to {O}. The tank isn't a strategy anymore, it's a lifestyle.",
+ "{s} points for {J}. Joe's 1.01 odds just did a keg stand.",
+ "Joe lost and called it 'part of the process'. The process is losing. It's working.",
+ "{J} dropped another one. Joe owes the league a shoey and an apology, in that order.",
+ "{J} with {s}. Somewhere a draft-pick hoarder is smiling in the dark.",
+ "Joe lost by {m}. He'll tell you it's year 5 of the rebuild. It's always year 5.",
+ "{J} put up {s} and still thinks the future is bright. It's not bright, Joe, it's a 4th-round pick."],
+joeWin:[
+ "Joe WON? {J} just set the tank back a week. Jeremiah Smith is crying.",
+ "{J} beat {O}. Joe accidentally started good players and it cost him draft position.",
+ "A win for {J}. The tank sprang a leak. Somebody grab the duct tape.",
+ "Joe won and immediately regretted it. That's a {s}-point self-own.",
+ "{J} won by {m}. The rebuild is furious. Joe is confused. We're all confused.",
+ "Joe beat {O}. Don't worry, {J} still has the lowest max PF energy in the league.",
+ "{J} snuck a win. Joe will be setting an all-kicker lineup next week to fix it.",
+ "{J} won. Somewhere in a war room, a whiteboard that says 'TANK' just fell off the wall.",
+ "Joe got a W. Treat it like a rare hope star: shiny, pointless, gone by Tuesday.",
+ "{J} won with {s}. Joe's 1.01 math just threw up in its mouth a little."],
+wzWin:[
+ "The Wilson Weasels beat {O} {s}-{os}. Best team in the league, doing best-team-in-the-league things.",
+ "Weasels win. {O} never stood a chance. Brett is already picking his next victim.",
+ "{T} by {m}. The best team in the league just cleared its throat.",
+ "Weasels {s}, {O} {os}. That's what a real roster looks like, boys.",
+ "Another W for the best team in the league. {O} will be telling their grandkids they kept it to {m}.",
+ "The Weasels dropped {s} on {O}. EAT SHIT, respectfully.",
+ "{T} rolls. Brett set the lineup with one eye closed and still won by {m}.",
+ "Weasels over {O} by {m}. The rest of the league is playing for second.",
+ "{O} got Weaseled. {s} points. Pay the man.",
+ "The best team in the league won again. Shocking absolutely no one.",
+ "Weasels win by {m}. Brett's sunglasses stayed on the entire time.",
+ "{T} {s}, {O} {os}. The dynasty stays dynasty-ing."],
+wzLoss:[
+ "The Weasels lost to {O} by {m}. Clearly a stat correction conspiracy. Still the best team in the league.",
+ "{O} beat the Weasels. Enjoy it, that's going in the scrapbook. Brett was resting starters. Mentally.",
+ "Weasels drop one, {os}-{s}. Even the best team in the league gives a little back to charity.",
+ "{O} took down the Weasels by {m}. Brett blames the refs, the weather, and Joe. Mostly Joe.",
+ "A rare Weasels L. {O} played the game of their lives and still needed it.",
+ "Weasels lose by {m}. Injuries, bye weeks and a cursed Thursday night. Best team in the league, temporarily inconvenienced.",
+ "{O} beat the Weasels. Frame it, {O}. It may never happen again.",
+ "The Weasels lost by {m}. Brett was clearly sandbagging to keep the league interested.",
+ "Weasels fall to {O}, {s}-{os}. Rumor has it the Wi-Fi went down during lineup lock.",
+ "{O} upset the Weasels. The best team in the league is now very motivated. Uh oh.",
+ "Weasels lost by {m}. That's called load management.",
+ "A Weasels loss? Must be a typo on Sleeper's end. Still the best team in the league."],
+high:[
+ "{T} posted the week's high score: {s}. Somebody check that roster for performance enhancers.",
+ "Top score of the week: {T} with {s}. Sleeper's servers needed a minute.",
+ "{T} dropped {s}, the most in the league. Brag about it now, regress next week.",
+ "{s} from {T}: best in the league this week. Even the bench was jealous.",
+ "{T} led the league with {s}. Lineup locked, brain on, wallet out.",
+ "Highest score of the week: {T} at {s}. Somebody finally read the injury report.",
+ "{T} put up {s}. That's a league-best and a free pass to talk shit until Thursday.",
+ "{T} with the weekly high, {s}. Peak fantasy. Downhill from here.",
+ "{s} for {T}. The rest of the league just got a little more desperate on waivers.",
+ "League-high {s} for {T}. Somebody tell the trade block to calm down."],
+low:[
+ "{T} scored {s}, the lowest in the league. Shoey's on you, chief.",
+ "League-low {s} for {T}. Lace up that boot and pour.",
+ "{T} with {s}. That's a shoey, a shower and a long look in the lineup mirror.",
+ "Bottom of the barrel: {T} at {s}. The boot is filled, the league is waiting.",
+ "{s} points. {T} owes a shoey and an explanation, in that order.",
+ "Lowest score of the week: {T}, {s}. Even the tank teams are laughing.",
+ "{T} scored {s}. Somebody start the shoey chant.",
+ "{T} put up {s}. That's not a score, that's a cry for a shoey.",
+ "{s} for {T}. Worst in the league. Boot up, buttercup.",
+ "{T} hit rock bottom at {s} and started digging. Shoey time."],
+bench:[
+ "{T} left {B} points on the bench. That's not a bench, that's a vault.",
+ "{B} points rotting on {T}'s bench. Start/sit is clearly not a strength.",
+ "{T} benched {B} points worth of football. Bold strategy. Terrible strategy.",
+ "{T} had {B} points sitting on the pine and started vibes instead.",
+ "{B} bench points for {T}. Somebody take away their lineup privileges.",
+ "{T} left {B} on the bench. The bench should be the starting lineup.",
+ "{B} points on {T}'s bench. That's a whole extra win sitting in a folding chair.",
+ "{T} benched {B} points. Joe looked at that and said 'amateur'.",
+ "{T}: {B} points left on the bench. The pine had a better week than the starters.",
+ "{B} wasted points on {T}'s bench. Trust your gut, they said. Your gut is an idiot.",
+ "{T} left {B} on the sideline. Fantasy malpractice, plain and simple.",
+ "{B} points of bench production for {T}. The 'set it and forget it' plan, forgotten."],
+dud:[
+ "{P} gave {T} {pp} points. Started, stunk, should be cut.",
+ "{T} started {P} and got {pp}. That's a bye-week performance on a non-bye week.",
+ "{P} with {pp} for {T}. Somebody check his pulse.",
+ "{pp} points from {P}. {T} would have been better off starting an empty slot.",
+ "{P} put up {pp} for {T}. Stud on paper, dud on Sunday.",
+ "{T}'s {P} scored {pp}. That's a waiver-wire smell coming off him.",
+ "{P}: {pp} points. {T} trusted him and he took a nap.",
+ "{pp} from {P}. {T} is updating the trade block as we speak.",
+ "{P} gave {T} {pp}. The 'he's due' theory is officially dead.",
+ "{T} got {pp} from {P}. Somebody tell him the game started.",
+ "{P} with a {pp}-point dud for {T}. Fantasy football is a cruel bitch.",
+ "{pp} points. {P} owes {T} a refund and a handwritten apology."],
+hero:[
+ "{P} dropped {pp} for {T}. Absolute league-winner energy.",
+ "{pp} points from {P}. {T} owes that man a steak dinner.",
+ "{P} went nuclear: {pp} for {T}.",
+ "{T} rode {P} to {pp} points. Hall of Fame Sunday.",
+ "{P} scored {pp} for {T}. The rest of the lineup should split his check.",
+ "{pp} from {P}. {T} is screenshotting that box score forever.",
+ "{P} with {pp} for {T}. Somebody frame the stat line.",
+ "{T} got {pp} out of {P}. That's a whole team in one jersey.",
+ "{P}: {pp} points. {T} didn't win the matchup, {P} did.",
+ "{pp} points from {P}. {T}'s opponent is filing a complaint.",
+ "{P} cooked for {pp} for {T}. Five stars, would start again.",
+ "{T}'s {P} hung {pp}. Every other manager just added him to their watchlist out of spite."],
+generic:[
+ "{L} needs a waiver claim, a trade and a stiff drink.",
+ "{L}'s lineup looked like it was set during a fire drill.",
+ "{L} competed. Briefly. Then remembered who they were.",
+ "{L} is now accepting trade offers and thoughts and prayers.",
+ "{L} played like a team that drafted on autopilot.",
+ "{L} has the energy of a 4th-round pick in a contract year.",
+ "{L} is one more loss away from a full Joe-style rebuild.",
+ "{L} should start tanking. Ask Joe, he wrote the manual.",
+ "{L}'s game plan was mostly hoping.",
+ "{L} lost and the group chat noticed.",
+ "{L} needs to stop setting lineups after three beers.",
+ "{L} got outcoached, outplayed and out-vibed."],
+shoey:[
+ "{T} scored {s} and owes the league a shoey. Boot's already filled.",
+ "Shoey of the Week: {T}, {s} points. Drink up and think about your choices.",
+ "{T} takes the boot with {s}. The league will be filming.",
+ "{s} points earns {T} this week's shoey. Socks optional, shame mandatory.",
+ "The boot goes to {T} ({s}). Pour slow, it's a long week.",
+ "{T}: {s} points. Shoey of the Week. The squad is pointing and laughing.",
+ "Shoey of the Week goes to {T} with {s}. Chug it like you started that lineup: badly.",
+ "{T} with {s} wins the boot. Somebody grab a towel and a camera."],
+benchAward:[
+ "{T} left {B} points on the bench. Most in the league. Fire the lineup coach.",
+ "Bench Warmer award: {T} with {B} points riding pine.",
+ "{T} parked {B} points on the bench. That's a whole other team sitting there.",
+ "{B} points on {T}'s bench. Most in the league and most avoidable.",
+ "{T} wins Points Left on Bench: {B}. The bench wants a raise.",
+ "{T} benched {B}. League-high. The start/sit gods are laughing.",
+ "Points Left on Bench: {T}, {B}. That's a playoff spot sitting in the dugout.",
+ "{T} kept {B} points on the bench like it was saving them for later. There is no later."],
+lucky:[
+ "Luckiest Win: {T} won with {s}, which beats only {k} other teams this week. Buy a lottery ticket.",
+ "{T} won with {s} against {O}. That score loses to {x} teams. Pure luck, zero shame.",
+ "Luckiest Win goes to {T}: {s} points and the softest schedule in the league.",
+ "{T} won with {s}. On any other field that's an L. Thank {O}.",
+ "{T} squeaked a W with {s}. The fantasy gods owe somebody else now.",
+ "Luckiest Win: {T}. {s} points, one prayer, one gift from {O}.",
+ "{T} won with a score that would lose to {x} teams. Matchup luck is a skill, right?",
+ "{T} won with {s}. {O} handed it over with a bow on top."],
+robbed:[
+ "Most Robbed: {T} scored {s} and lost. That beats {k} other teams. Call the cops.",
+ "{T} put up {s}, beat {k} teams, and still lost to {O}. Fantasy is rigged.",
+ "Most Robbed goes to {T}: {s} points, one L, zero justice.",
+ "{T} scored {s} and lost. Somewhere the schedule-maker is laughing.",
+ "{T} lost with {s}. Against literally anyone else, that's a win.",
+ "Most Robbed: {T}. {s} points, wrong opponent, wrong week.",
+ "{T} scored {s} and still took an L to {O}. Brutal.",
+ "{T} got mugged by the schedule: {s} points and a loss."]};
+const RB_COUNT=Object.values(RB).reduce((a,b)=>a+b.length,0);
+function seeded(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function hashStr(s){let h=2166136261;for(const c of s)h=Math.imul(h^c.charCodeAt(0),16777619);return h>>>0}
+// per-week deck per category: seeded shuffle, consumed in order, so a week never repeats a line and reloads give the same recap
+function decks(week){const rnd=seeded(hashStr(LEAGUE+':recap:'+week)),D={};for(const k in RB){const a=RB[k].map((_,i)=>i);for(let i=a.length-1;i>0;i--){const j=(rnd()*(i+1))|0;[a[i],a[j]]=[a[j],a[i]]}D[k]={a,i:0}}
+  return k=>{const d=D[k];const s=RB[k][d.a[d.i%d.a.length]];d.i++;return s}}
+const fill=(s,v)=>s.replace(/\{(\w+)\}/g,(m,k)=>v[k]!=null?`<b>${esc(String(v[k]))}</b>`:m);
+const f1=n=>(Math.round(n*100)/100).toFixed(2);
+
+async function recapData(lg,rows,week){
+  const M=await jc('league/'+LEAGUE+'/matchups/'+week),slots=(lg.roster_positions||[]).filter(s=>!['BN','IR','TAXI'].includes(s));
+  const ids=new Set();M.forEach(m=>(m.players||[]).forEach(p=>ids.add(p)));const PL=await playersFor([...ids]);
+  const R=Object.fromEntries(rows.map(r=>[r.rid,r])),T={};
+  for(const m of M){const pp=m.players_points||{},st=(m.starters||[]).filter(x=>x&&x!=='0'),opt=optimal(slots,m.players||[],pp,PL),pts=+m.points||0;
+    const sp=st.map(id=>({id,n:(PL[id]||{}).n||'Player '+id,p:+pp[id]||0,pos:((PL[id]||{}).p||[])[0]||''}));
+    const dud=sp.filter(x=>['QB','RB','WR','TE'].includes(x.pos)).sort((a,b)=>a.p-b.p)[0],hero=[...sp].sort((a,b)=>b.p-a.p)[0];
+    T[m.roster_id]={rid:m.roster_id,mid:m.matchup_id,pts,opt,bench:Math.max(0,opt-pts),dud,hero,team:R[m.roster_id]?R[m.roster_id].team:'Team '+m.roster_id,joe:R[m.roster_id]&&R[m.roster_id].joe,wz:R[m.roster_id]&&R[m.roster_id].weasel}}
+  const all=Object.values(T).filter(t=>t.pts>0);all.forEach(t=>{t.beat=all.filter(o=>o!==t&&o.pts<t.pts).length});
+  const by={};all.forEach(t=>{if(t.mid!=null)(by[t.mid]=by[t.mid]||[]).push(t)});
+  const games=Object.values(by).filter(g=>g.length===2).map(([a,b])=>{const w=a.pts>=b.pts?a:b,l=w===a?b:a;return{w,l,m:w.pts-l.pts}}).sort((x,y)=>(y.w.wz||y.l.wz)-(x.w.wz||x.l.wz)||(y.w.joe||y.l.joe)-(x.w.joe||x.l.joe)||y.m-x.m);
+  return{week,all,games}}
+
+function renderRecap(lg,rows,D){
+  const pick=decks(D.week),{all,games}=D;if(!games.length)return '<div class="hint">No scored matchups for this week yet.</div>';
+  const hi=[...all].sort((a,b)=>b.pts-a.pts)[0],lo=[...all].sort((a,b)=>a.pts-b.pts)[0],bn=[...all].sort((a,b)=>b.bench-a.bench)[0];
+  const winners=games.map(g=>g.w),losers=games.map(g=>g.l),lucky=[...winners].sort((a,b)=>a.beat-b.beat)[0],robbed=[...losers].sort((a,b)=>b.beat-a.beat)[0];
+  const opp=t=>{const g=games.find(g=>g.w===t||g.l===t);return g?(g.w===t?g.l:g.w):null};
+  const N=all.length-1,J=(rows.find(r=>r.joe)||{}).team||'Joe';
+  const V=(t,x)=>Object.assign({T:t.team,s:f1(t.pts),O:opp(t)?opp(t).team:'',os:opp(t)?f1(opp(t).pts):'',B:f1(t.bench),k:t.beat,x:N-t.beat,J},x||{});
+  const photo=(kind,cap)=>`<figure class="rphoto ${kind}"><img src="img/cheer-${kind}-360.webp" srcset="img/cheer-${kind}-360.webp 360w, img/cheer-${kind}-600.webp 600w" sizes="(min-width:760px) 300px, 46vw" width="360" height="${kind==='laugh'?163:169}" loading="lazy" decoding="async" alt="${kind==='laugh'?'Cheerleaders pointing and laughing':'Cheerleaders celebrating the Wilson Weasels'}"><figcaption>${cap}</figcaption></figure>`;
+  const award=(ic,title,t,line,ph)=>`<div class="award${ph?' withph':''}"><div class="aw-t">${ic} ${title}</div><div class="aw-n">${esc(t.team)} <span>${line[0]}</span></div><div class="aw-l">${line[1]}</div>${ph||''}</div>`;
+  // the laughing squad sits beside the Shoey card and any award Joe "wins"; Weasels awards stay photo-free (they're the best team in the league)
+  const jph=t=>t&&t.joe?photo('laugh','JOE AGAIN. THE SQUAD CAN’T BREATHE.'):'';
+  let h=`<div class="awards">
+   ${award('👟🍺','SHOEY OF THE WEEK',lo,[f1(lo.pts),fill(pick('shoey'),V(lo))],photo('laugh',lo.joe?'SHOEY OF THE WEEK: JOE. OF COURSE.':'SHOEY OF THE WEEK. THE SQUAD IS LAUGHING.'))}
+   ${award('🪑','POINTS LEFT ON BENCH',bn,[f1(bn.bench),fill(pick('benchAward'),V(bn))],jph(bn))}
+   ${lucky?award('🍀','LUCKIEST WIN',lucky,[f1(lucky.pts),fill(pick('lucky'),V(lucky))],jph(lucky)):''}
+   ${robbed?award('🚨','MOST ROBBED',robbed,[f1(robbed.pts),fill(pick('robbed'),V(robbed))],jph(robbed)):''}</div>`;
+  for(const g of games){const {w,l,m}=g,v={W:w.team,L:l.team,ws:f1(w.pts),ls:f1(l.pts),m:f1(m),J};
+    const head=fill(pick(m>40?'blowout':m<5?'close':'normal'),v),lines=[];
+    const add=(k,t,x)=>{if(lines.length<2)lines.push(fill(pick(k),Object.assign(V(t),{m:f1(m)},x||{})))};
+    const wz=w.wz?w:l.wz?l:null,joe=w.joe?w:l.joe?l:null;
+    if(wz)add(wz===w?'wzWin':'wzLoss',wz);
+    if(joe)add(joe===l?'joeLose':'joeWin',joe);
+    if(lo===l||lo===w)add('low',lo);
+    if(hi===w||hi===l)add('high',hi);
+    for(const t of [w,l])if(t.hero&&t.hero.p>35&&!(t===l&&wz===l))add('hero',t,{P:t.hero.n,pp:f1(t.hero.p)});
+    for(const t of [l,w])if(t.dud&&t.dud.p<5&&!t.wz)add('dud',t,{P:t.dud.n,pp:f1(t.dud.p)});
+    for(const t of [l,w])if(t.bench>30&&!t.wz)add('bench',t);
+    if(lines.length<1)add('generic',l);
+    const ph=wz===w?photo('swoon','WEASELS WIN. THE SQUAD APPROVES.'):joe===l?photo('laugh','JOE LOST. THE SQUAD IS LOSING IT.'):joe?photo('laugh','JOE WON? THE SQUAD STILL THINKS IT’S FUNNY.'):'';
+    const side=t=>`<div class="rt${t===w?' win':''}${t.wz?' wz':''}${t.joe?' joe':''}"><span class="rn">${esc(t.team)}${t.joe?' <span class="pill red">JOE</span>':''}${t.wz?' <span class="pill pink">BEST TEAM IN THE LEAGUE</span>':''}</span><span class="rs">${f1(t.pts)}</span></div>`;
+    h+=`<article class="rgame${ph?' withph':''}${wz?' wzg':''}${joe?' joeg':''}">${side(w)}${side(l)}<div class="rh">${head}</div>${lines.map(x=>`<div class="rl">${x}</div>`).join('')}${ph}</article>`}
+  return h;
+}
+let RC={week:0,busy:false};
+async function recap(lg,rows,week){
+  const el=document.getElementById('recapBody'),last=+lg.settings.last_scored_leg||0;if(!el)return;
+  if(!last){el.innerHTML='<div class="hint">The recap starts after week 1 is scored.</div>';return}
+  week=Math.min(last,Math.max(1,week||RC.week||last));RC.week=week;
+  document.getElementById('recapTitle').textContent='WEEK '+week+' RECAP';
+  document.getElementById('recapWeeks').innerHTML=Array.from({length:last},(_,i)=>i+1).map(w=>`<button type="button" class="wk${w===week?' on':''}" data-w="${w}" aria-pressed="${w===week}">WK ${w}</button>`).join('');
+  el.innerHTML='<div class="hint">Pulling the box scores and writing the roasts…</div>';
+  try{const D=await recapData(lg,rows,week);if(RC.week!==week)return;el.innerHTML=renderRecap(lg,rows,D);el.dataset.week=week}
+  catch(e){el.innerHTML='<div class="hint">Couldn’t build the recap ('+esc(e.message)+'). Refresh in a minute.</div>'}
+}
+
 async function main(){
   const [lg,rosters,users,traded]=await Promise.all([j('league/'+LEAGUE),j('league/'+LEAGUE+'/rosters'),j('league/'+LEAGUE+'/users'),j('league/'+LEAGUE+'/traded_picks').catch(()=>[])]);
   // next season's rookie picks owned: everyone starts with draft_rounds of their own, then apply trades
@@ -338,6 +655,7 @@ async function main(){
   how.innerHTML=`<b>HOW THE TANK WORKS.</b> ${pt} teams make the playoffs. The other ${rows.length-pt} draft picks 1–${rows.length-pt} in the rookie draft, ordered by <b>lowest max PF</b> (Sleeper “potential points”: your best possible lineup every week). Wins don’t save you and losses don’t help you. Only a sorry roster does. This page projects playoff spots from the <b>current standings</b> (win % then points for). Playoff teams are greyed out; their picks are set by playoff finish.<br><span id="verify">Checking last season’s draft…</span>`;
   verify(lg).catch(()=>{document.getElementById('verify').textContent=''});
   hoarders(lg,rows,traded);
+  {const mw=/^#recap-w(\d+)$/.exec(location.hash);RC.lg=lg;RC.rows=rows;recap(lg,rows,mw?+mw[1]:RC.week).catch(()=>{})}
   lazyShame(lg,rows);
   setTimeout(()=>tankOdds(lg,rows,pt).catch(e=>{document.getElementById('odds').innerHTML='<h2>🏁 TANK RACE ODDS FOR 1.01</h2><div class="hint">Couldn’t run the sim ('+esc(e.message)+').</div>'}),50);
 }
@@ -355,6 +673,9 @@ async function verify(lg){
 async function refresh(){const b=document.getElementById('refBtn');if(b.disabled)return;b.disabled=true;b.classList.add('busy');
   try{await main();toast('UPDATED FROM SLEEPER')}catch(e){toast('SLEEPER DIDN’T ANSWER. TRY AGAIN.')}finally{b.disabled=false;b.classList.remove('busy')}}
 document.getElementById('refBtn').addEventListener('click',refresh);
+document.getElementById('recapWeeks').addEventListener('click',e=>{const b=e.target.closest('.wk');if(!b||!RC.lg)return;const w=+b.dataset.w;RC.week=w;
+  try{history.replaceState(null,'',location.pathname+location.search+'#recap-w'+w)}catch(e){}recap(RC.lg,RC.rows,w)});
+if(/^#recap/.test(location.hash))requestAnimationFrame(()=>{const r=document.getElementById('recap');if(r)r.scrollIntoView()});
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&TK.at&&Date.now()-TK.at>10*60e3)refresh()});
 document.getElementById('shareBtn').addEventListener('click',async()=>{
   const url='https://howibrettyourmother.github.io/tank-for-jeremiah-smith/'+(LEAGUE!=='1312055708249767936'?'?league='+LEAGUE:'');
