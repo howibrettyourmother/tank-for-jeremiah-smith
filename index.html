@@ -208,7 +208,7 @@ const avatar=u=>u&&u.metadata&&u.metadata.avatar?u.metadata.avatar:(u&&u.avatar?
 const fmt=n=>n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 
 const TALK1=['Can’t even tank right… wait, yes he can.','Max PF lower than his waiver priority.','Lineup so bad the bench is embarrassed.','Starting a kicker in the FLEX energy.','Max PF says: even perfect lineups lose.','Jeremiah Smith’s agent is already on the phone.'];
-const TALK=['Tanking with purpose.','Trying to lose, keeps scoring. Rookie mistake.','One more dud week and you’re in it.','Bench full of breakout guys. Shame.','Stop setting good lineups.','Your max PF is too good. Bench those studs.'];
+const TALK=['Tanking with purpose.','Trying to tank, keeps scoring. Rookie mistake.','One more dud week and you’re in it.','Bench full of breakout guys. Shame.','Bad lineups won’t save you. Max PF sees the bench.','Your max PF is too good. Trade those studs.'];
 // ---- session cache: finished weeks (and the future schedule) don't change, so each tab fetches them once ----
 const SS=(()=>{try{sessionStorage.setItem('_t','1');sessionStorage.removeItem('_t');return sessionStorage}catch(e){return null}})();
 async function jc(u,tag){const k='tank:'+u+(tag!=null?'@'+tag:'');if(SS){const v=SS.getItem(k);if(v)try{return JSON.parse(v)}catch(e){}}
@@ -384,26 +384,26 @@ normal:[
  "{W} {ws}, {L} {ls}. {L} left the stadium early to beat the traffic.",
  "{W} beat {L} by {m} and didn't break a sweat."],
 joeLose:[
- "Joe lost again and the tank is right on schedule. {J} is a well-oiled losing machine.",
+ "{J} lost again. Cute, but the L doesn't move the 1.01. Only a low max PF does, and that roster is handling it.",
  "{J} put up {s}. Jeremiah Smith just felt a disturbance in the Force.",
  "Another L for {J}. Joe's GM hat is just a bucket for tears at this point.",
  "{J} scored {s}. That's not a lineup, that's a rebuild with a pulse.",
  "Joe set a lineup this week. Allegedly. {J} scored {s}.",
  "{J} lost to {O}. The tank isn't a strategy anymore, it's a lifestyle.",
  "{s} points for {J}. Joe's 1.01 odds just did a keg stand.",
- "Joe lost and called it 'part of the process'. The process is losing. It's working.",
+ "Joe lost and called it 'part of the process'. Wrong process, Joe: the 1.01 goes to the lowest max PF, not the most L's.",
  "{J} dropped another one. Joe owes the league a shoey and an apology, in that order.",
  "{J} with {s}. Somewhere a draft-pick hoarder is smiling in the dark.",
  "Joe lost by {m}. He'll tell you it's year 5 of the rebuild. It's always year 5.",
  "{J} put up {s} and still thinks the future is bright. It's not bright, Joe, it's a 4th-round pick."],
 joeWin:[
- "Joe WON? {J} just set the tank back a week. Jeremiah Smith is crying.",
- "{J} beat {O}. Joe accidentally started good players and it cost him draft position.",
- "A win for {J}. The tank sprang a leak. Somebody grab the duct tape.",
+ "Joe WON? Relax, wins don't cost the 1.01. The {s} points padding his max PF do. Jeremiah Smith is crying.",
+ "{J} beat {O}. The W is harmless. The {s} potential points it came with cost him draft position.",
+ "{J} put up {s}. The tank sprang a leak, and it's leaking potential points. Somebody grab the duct tape.",
  "Joe won and immediately regretted it. That's a {s}-point self-own.",
  "{J} won by {m}. The rebuild is furious. Joe is confused. We're all confused.",
  "Joe beat {O}. Don't worry, {J} still has the lowest max PF energy in the league.",
- "{J} snuck a win. Joe will be setting an all-kicker lineup next week to fix it.",
+ "{J} snuck a win. Benching his studs won't fix it, Joe: max PF counts your best lineup anyway. You need worse players.",
  "{J} won. Somewhere in a war room, a whiteboard that says 'TANK' just fell off the wall.",
  "Joe got a W. Treat it like a rare hope star: shiny, pointless, gone by Tuesday.",
  "{J} won with {s}. Joe's 1.01 math just threw up in its mouth a little."],
