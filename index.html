@@ -263,13 +263,19 @@ function hoarders(lg,rows,traded){
 
 // ---- League Shame (lazy: needs the big Sleeper players file for names/positions, so it only loads when you scroll here) ----
 const ELIG={QB:['QB'],RB:['RB'],WR:['WR'],TE:['TE'],K:['K'],DEF:['DEF'],FLEX:['RB','WR','TE'],WRRB_FLEX:['RB','WR'],REC_FLEX:['WR','TE'],SUPER_FLEX:['QB','RB','WR','TE'],IDP_FLEX:['DL','LB','DB'],DL:['DL'],LB:['LB'],DB:['DB']};
+const SLIM_URL='https://howibrettyourmother.github.io/shadynasty/data/players.json';
 async function playersFor(ids){
   const k='tank:players:'+LEAGUE;let have={};if(SS)try{have=JSON.parse(SS.getItem(k)||'{}')}catch(e){}
   if(!ids.every(i=>have[i]))try{const c=JSON.parse(localStorage.getItem(k)||'null');if(c&&Date.now()-c.at<7*864e5)have=Object.assign(c.p,have)}catch(e){}
   if(!ids.every(i=>have[i])){
     // one download of the big players DB per page view, shared by the recap and League Shame; only a slim id -> name/position map is kept
-    if(!playersFor.slim)playersFor.slim=fetch(API+'players/nfl').then(r=>{if(!r.ok)throw new Error('players '+r.status);return r.json()}).then(all=>{const m={};
-      for(const i in all){const p=all[i];m[i]={n:p.position==='DEF'?((p.first_name||'')+' '+(p.last_name||'')).trim()+' D/ST':(p.full_name||((p.first_name||'')+' '+(p.last_name||'')).trim()),p:(p.fantasy_positions&&p.fantasy_positions.length?p.fantasy_positions:[p.position]).filter(Boolean),t:p.team||'FA'}}return m}).catch(e=>{playersFor.slim=null;throw e});
+    // prefer SHADYNASTY's slim players file (same GitHub Pages domain, CORS *, ~60 KB gz, rebuilt every 30-60 min by an Action; covers every player ever in this league);
+    // fall back to Sleeper's ~15 MB file only if the slim copy is missing, older than a week, or missing these players
+    if(!playersFor.slim)playersFor.slim=fetch(SLIM_URL+'?_='+Math.floor(Date.now()/3e5)).then(r=>{if(!r.ok)throw new Error('slim '+r.status);return r.json()}).then(d=>{
+        if(!d||!d.p||!d.at||Date.now()-d.at>7*864e5)throw new Error('slim stale');if(ids.filter(i=>!d.p[i]).length>3)throw new Error('slim incomplete');
+        const m={};for(const i in d.p){const p=d.p[i];m[i]={n:p.n,p:p.p,t:p.t}}return m})
+      .catch(()=>fetch(API+'players/nfl').then(r=>{if(!r.ok)throw new Error('players '+r.status);return r.json()}).then(all=>{const m={};
+      for(const i in all){const p=all[i];m[i]={n:p.position==='DEF'?((p.first_name||'')+' '+(p.last_name||'')).trim()+' D/ST':(p.full_name||((p.first_name||'')+' '+(p.last_name||'')).trim()),p:(p.fantasy_positions&&p.fantasy_positions.length?p.fantasy_positions:[p.position]).filter(Boolean),t:p.team||'FA'}}return m})).catch(e=>{playersFor.slim=null;throw e});
     const m=await playersFor.slim;ids.forEach(i=>{if(!have[i])have[i]=m[i]||{n:'Player '+i,p:[],t:''}});
     if(SS)try{SS.setItem(k,JSON.stringify(have))}catch(e){}
     try{localStorage.setItem(k,JSON.stringify({at:Date.now(),p:have}))}catch(e){}}
