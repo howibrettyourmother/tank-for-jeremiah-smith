@@ -189,6 +189,7 @@ ol.wall{margin:4px 0 0;padding-left:22px;font-size:13px;line-height:1.45;color:#
   <div class="foot">Data: public <a href="https://docs.sleeper.com/" rel="noopener">Sleeper API</a>, fetched live in your browser. Finished weeks are cached in this tab only. · <span id="upd"></span><br>
     A SHADYNASTY production · also play <a href="https://howibrettyourmother.github.io/mo-morehouse-mo-problems/">MOREHOUSE MORE PROBLEMS</a></div>
 </div>
+<script src="/shadynasty/config.js?v=1"></script><script src="/shadynasty/tankodds.js?v=2"></script>
 <script>
 const API='https://api.sleeper.app/v1/';
 // BACK TO THE GAME: works in a normal tab and in the game's iOS home-screen mode. history.back() when we came from the game
@@ -198,7 +199,8 @@ const API='https://api.sleeper.app/v1/';
   const fromGame=q.get('from')==='game';btn.href=back;if(!fromGame)btn.innerHTML='&#127918; PLAY THE GAME';
   btn.addEventListener('click',e=>{const ref=document.referrer||'';if(fromGame&&history.length>1&&ref&&ref.split('?')[0]===back.split('?')[0]){e.preventDefault();history.back();setTimeout(()=>{location.href=back},900)}});
 })();
-const LEAGUE=(new URLSearchParams(location.search).get('league')||'1312055708249767936').replace(/[^0-9]/g,'');
+// league id: ?league= override, else SHADYNASTY's shared config.js (auto-follows Sleeper's yearly renewal), else the 2026 league
+const LEAGUE=(new URLSearchParams(location.search).get('league')||(window.SN_CFG&&SN_CFG.LEAGUE)||'1312055708249767936').replace(/[^0-9]/g,'');
 const BRETT_USER='603082868373135360';
 const j=u=>fetch(API+u,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(u+' '+r.status);return r.json()});
 const num=(a,b)=>(+a||0)+(+b||0)/100;
@@ -231,8 +233,12 @@ async function tankOdds(lg,rows,pt){
     let sd=pts.length>1?Math.sqrt(pts.reduce((a,b)=>a+(b-pm)**2,0)/(pts.length-1)):mu*0.15;sd=Math.max(sd*(pm>0?mu/pm:1),mu*0.06);
     P[r.rid]={mu,sd,eff:Math.min(1,Math.max(0.5,eff))}});
   const fut=[];for(let w=last+1;w<=regEnd;w++){const ms=M[w-1]||[],by={};ms.forEach(x=>{if(x.matchup_id!=null)(by[x.matchup_id]=by[x.matchup_id]||[]).push(x.roster_id)});fut.push(Object.values(by).filter(p=>p.length===2))}
-  const N=fut.length?4000:1,ids=rows.map(r=>r.rid),c101={},cMiss={},cTop3={};ids.forEach(i=>{c101[i]=0;cMiss[i]=0;cTop3[i]=0});
+  // canonical odds: the SAME simulation SHADYNASTY's Tank Race / Draft Room / pick values use (shared tankodds.js), so numbers agree everywhere
+  let N=fut.length?4000:1;const ids=rows.map(r=>r.rid),c101={},cMiss={},cTop3={};ids.forEach(i=>{c101[i]=0;cMiss[i]=0;cTop3[i]=0});
   const t0=performance.now();
+  if(window.SNTank&&fut.length){N=SNTank.N;const T={};rows.forEach(r=>T[r.rid]={max:r.max});const S=SNTank.simTank(T,M,last,regEnd+1,pt,N);
+    ids.forEach(i=>{const x=S[i];if(!x)return;c101[i]=x.p1*N;cTop3[i]=x.top3*N;cMiss[i]=(1-x.po)*N})}
+  else{
   for(let s=0;s<N;s++){
     const W={},PF={},MX={};rows.forEach(r=>{W[r.rid]=r.w+r.t/2;PF[r.rid]=r.pf;MX[r.rid]=r.max});
     for(const pairs of fut){const wk={};ids.forEach(i=>{const p=P[i],m=Math.max(40,p.mu+p.sd*randn());MX[i]+=m;const a=m*p.eff*(0.92+0.08*Math.random());PF[i]+=a;wk[i]=a});
@@ -241,10 +247,11 @@ async function tankOdds(lg,rows,pt){
     const outs=ids.filter(i=>!po.has(i)).sort((a,b)=>MX[a]-MX[b]);
     outs.forEach((i,k)=>{cMiss[i]++;if(k===0)c101[i]++;if(k<3)cTop3[i]++});
   }
+  }
   const ms=Math.round(performance.now()-t0);
   const list=[...rows].sort((a,b)=>c101[b.rid]-c101[a.rid]||cTop3[b.rid]-cTop3[a.rid]||a.max-b.max);
   const left=fut.length;
-  el.innerHTML=`<h2>🏁 TANK RACE ODDS FOR 1.01</h2><div class="hint">${left?`${N.toLocaleString()} simulated finishes of the last ${left} regular-season week${left>1?'s':''}`:'Regular season is over: final order'} · each team’s weekly max PF drawn from its own average and swing · real remaining schedule.</div>
+  el.innerHTML=`<h2>🏁 TANK RACE ODDS FOR 1.01</h2><div class="hint">${left?`${N.toLocaleString()} simulated finishes of the last ${left} regular-season week${left>1?'s':''}`:'Regular season is over: final order'} · same simulation as SHADYNASTY’s Tank Race (scores, bench gap and the playoff bracket) · real remaining schedule.</div>
   <table class="mini"><thead><tr><th>TEAM</th><th>1.01</th><th>TOP 3</th><th>MISS PO</th></tr></thead><tbody>${list.map(r=>{const p=c101[r.rid]/N;return `<tr class="${r.weasel?'wz':''}"><td class="tm"><span class="nm">${esc(r.team)}${r.joe?' <span class="pill red">JOE</span>':''}${r.weasel?' <span class="pill pink">BEST TEAM IN THE LEAGUE</span>':''}</span><span class="bar"><i style="width:${Math.max(p>0?2:0,Math.round(p*100))}%"></i></span><span class="ow">${fmt(P[r.rid].mu)}/wk max PF ± ${fmt(P[r.rid].sd)}</span></td><td><b>${pctf(p)}</b></td><td>${pctf(cTop3[r.rid]/N)}</td><td>${pctf(cMiss[r.rid]/N)}</td></tr>`}).join('')}</tbody></table>`;
   el.dataset.ms=ms;
   const jr=rows.find(r=>r.joe);TK.joeOdds=jr?pctf(c101[jr.rid]/N):null;TK.joeTeam=jr?jr.team:null;
